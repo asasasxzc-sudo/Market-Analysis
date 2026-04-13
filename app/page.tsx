@@ -1,169 +1,189 @@
 "use client";
-
 import React, { useState, useRef } from 'react';
-import { Search, Zap, TrendingUp, ShieldCheck, Newspaper, ArrowUpRight, Loader2, Globe, Activity } from 'lucide-react';
+import { Search, BarChart3, FileText, Lightbulb, Globe, ArrowUpRight, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
-export default function MarketTerminal() {
+export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
 
-  const runAnalysis = () => {
-    if (!product.trim()) return;
+  // 动态数据状态
+  const [dynamicData, setDynamicData] = useState({
+    score: 0,
+    level: '',
+    keywords: [] as any[],
+    suggestions: [] as string[]
+  });
+
+  const handleAnalyze = () => {
+    if (!product.trim()) return alert("请输入产品名称");
+    
     setAnalyzing(true);
     setShowResult(false);
-    
+
+    // 模拟数据计算逻辑
     setTimeout(() => {
+      const randomScore = Math.floor(Math.random() * 20) + 75; // 生成 75-95 之间的分数
+      setDynamicData({
+        score: randomScore,
+        level: randomScore > 88 ? '极高潜力' : '高增长',
+        keywords: [
+          { word: `Best ${product} reviews 2026`, diff: '容易', trend: '+156%' },
+          { word: `Organic ${product} wholesale`, diff: '中等', trend: '+88%' },
+          { word: `Where to buy ${product} in Europe`, diff: '低难度', trend: '+62%' },
+          { word: `${product} sustainable packaging`, diff: '容易', trend: '+110%' },
+        ],
+        suggestions: [
+          `在欧美市场强调 "${product}" 的环保属性与可追溯性，这是当前消费者的核心关注点。`,
+          `针对 Google 搜索结果优化 "${product}" 的对比类文章（Top 10 list）。`,
+          `该产品在 YouTube 和 TikTok 的开箱视频声量正处于爆发前期，建议布局视频内容。`
+        ]
+      });
       setAnalyzing(false);
       setShowResult(true);
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
-    }, 1000);
+      
+      // 延迟确保 DOM 渲染后平滑滚动
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }, 1500);
+  };
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
   };
 
   return (
-    <div className="min-h-screen bg-[#0A0A0B] text-[#94A3B8] font-mono selection:bg-blue-500/30">
-      {/* 顶部导航 - 工业极简风格 */}
-      <nav className="border-b border-white/5 bg-[#0D0D0E] px-6 py-3">
-        <div className="mx-auto flex max-w-[1400px] items-center justify-between">
-          <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 group">
-            <div className="bg-blue-600 p-1 rounded-sm">
-              <Zap size={14} className="text-white" fill="currentColor" />
+    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 scroll-smooth">
+      {/* 导航栏 - 增加了点击跳转逻辑 */}
+      <nav className="sticky top-0 z-50 border-b bg-white/80 px-6 py-4 backdrop-blur-md shadow-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
+            <div className="rounded-lg bg-blue-600 p-2 text-white">
+              <Globe size={24} />
             </div>
-            <span className="text-sm font-bold tracking-[0.2em] text-white uppercase">YMTEA <span className="text-blue-500">MARKET</span></span>
-          </a>
-          <div className="flex items-center gap-8 text-[10px] tracking-widest uppercase font-bold">
-            <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" className="hover:text-blue-400 transition-colors flex items-center gap-2">
-              <Activity size={12} /> Intelligence
-            </a>
-            <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" className="text-white border border-white/20 px-3 py-1 hover:bg-white/10 transition-all">
-              Terminal v1.0
-            </a>
+            <span className="text-xl font-bold tracking-tight">YMTEA Labs</span>
+          </div>
+          <div className="hidden space-x-8 text-sm font-medium md:flex">
+            <button onClick={() => scrollToSection('market-index')} className="hover:text-blue-600 transition">市场指数</button>
+            <button onClick={() => scrollToSection('keyword-analysis')} className="hover:text-blue-600 transition">关键词分析</button>
+            <button onClick={() => scrollToSection('roadmap')} className="hover:text-blue-600 transition">优化方案</button>
           </div>
         </div>
       </nav>
 
-      <main className="mx-auto max-w-[1400px] px-6 py-12">
-        {/* 搜索区域 - 块状结构 */}
-        <section className="mb-12 bg-[#121214] border border-white/5 p-8 rounded-sm shadow-2xl">
-          <div className="max-w-3xl">
-            <h2 className="text-xs font-bold text-blue-500 uppercase tracking-[0.3em] mb-4">Market Analysis Engine</h2>
-            <h1 className="text-3xl font-bold text-white mb-8 tracking-tight">全球市场指数监测终端</h1>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <div className="flex-1 relative">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-600" size={18} />
-                <input 
-                  className="w-full bg-black border border-white/10 px-12 py-3 text-white outline-none focus:border-blue-500 transition-all font-sans"
-                  placeholder="输入产品关键词 (如: Organic Tea)..."
-                  value={product}
-                  onChange={(e) => setProduct(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && runAnalysis()}
-                />
-              </div>
-              <button 
-                onClick={runAnalysis}
-                className="bg-blue-600 text-white px-10 py-3 font-bold text-xs uppercase tracking-widest hover:bg-blue-500 transition-all flex items-center justify-center gap-2"
-              >
-                {analyzing ? <Loader2 className="animate-spin" size={16} /> : 'Execute Analysis'}
-              </button>
-            </div>
+      <main className="mx-auto max-w-7xl px-6 py-12">
+        {/* 搜索区域 */}
+        <section className="mb-16 text-center pt-10">
+          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl text-slate-900">
+            欧美市场前景诊断
+          </h1>
+          <p className="mb-8 text-lg text-slate-600 max-w-2xl mx-auto">
+            基于 Ymtea 实时算法，为您提供精准的产品出海 SEO 建议与趋势预测
+          </p>
+          
+          <div className="mx-auto flex max-w-2xl gap-2 rounded-2xl bg-white p-2 shadow-2xl border border-slate-200 focus-within:ring-2 ring-blue-500 transition-all duration-300">
+            <input 
+              type="text" 
+              placeholder="输入产品 (例如: Pu-erh Tea)" 
+              className="flex-1 px-4 py-3 outline-none rounded-l-xl text-lg"
+              value={product}
+              onChange={(e) => setProduct(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
+            />
+            <button 
+              onClick={handleAnalyze}
+              disabled={analyzing}
+              className="rounded-xl bg-blue-600 px-8 py-3 font-bold text-white transition hover:bg-blue-700 active:scale-95 disabled:bg-slate-400 flex items-center gap-2"
+            >
+              {analyzing ? <><Loader2 className="animate-spin" size={20} /> 分析中</> : '开始诊断'}
+            </button>
           </div>
         </section>
 
         {showResult && (
-          <div ref={resultRef} className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-            {/* 指标矩阵 */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-              {[
-                { label: 'Market Score', val: '94.2', unit: 'idx', trend: '+2.4%' },
-                { label: 'Demand Level', val: 'HIGH', unit: '', trend: 'Stable' },
-                { label: 'Competition', val: 'MEDIUM', unit: '', trend: '-0.8%' },
-                { label: 'YMTEA Rank', val: 'TOP 5', unit: '', trend: 'Rising' }
-              ].map((stat, i) => (
-                <div key={i} className="bg-[#121214] border border-white/5 p-6 rounded-sm hover:border-blue-500/50 transition-all">
-                  <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-4">{stat.label}</div>
-                  <div className="flex items-baseline gap-2">
-                    <div className="text-2xl font-bold text-white">{stat.val}</div>
-                    <div className="text-[10px] text-zinc-600">{stat.unit}</div>
-                  </div>
-                  <div className="mt-4 text-[10px] font-bold text-blue-500">{stat.trend}</div>
+          <div ref={resultRef} className="space-y-12 animate-in fade-in slide-in-from-bottom-6 duration-1000">
+            {/* 市场指数板块 */}
+            <div id="market-index" className="grid grid-cols-1 gap-6 md:grid-cols-3 scroll-mt-24">
+              <div className="rounded-2xl bg-white p-6 shadow-sm border-2 border-blue-50">
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">市场潜力值</span>
+                  <BarChart3 className="text-blue-600" size={20} />
                 </div>
-              ))}
-            </div>
-
-            {/* 图表与资讯主干 */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {/* 核心趋势图 */}
-              <div className="lg:col-span-2 bg-[#121214] border border-white/5 p-8 rounded-sm">
-                <div className="flex justify-between items-center mb-10">
-                  <div className="text-xs font-bold text-white uppercase tracking-widest flex items-center gap-2">
-                    <TrendingUp size={14} className="text-blue-500" /> 增长趋势指数 (12M)
-                  </div>
-                  <div className="flex gap-2">
-                    <span className="h-2 w-2 bg-blue-600 rounded-full"></span>
-                    <span className="text-[8px] text-zinc-500 uppercase font-bold tracking-widest">Real-time Data</span>
-                  </div>
-                </div>
-                
-                {/* 科技感线性图表 */}
-                <div className="h-48 w-full relative">
-                  <svg viewBox="0 0 400 100" className="w-full h-full overflow-visible">
-                    <path 
-                      d="M 0 80 Q 50 85, 100 60 T 200 40 T 300 70 T 400 20" 
-                      fill="none" 
-                      stroke="#2563eb" 
-                      strokeWidth="1.5"
-                    />
-                    <path 
-                      d="M 0 80 Q 50 85, 100 60 T 200 40 T 300 70 T 400 20 V 100 H 0 Z" 
-                      fill="url(#industrialGrad)"
-                      className="opacity-20"
-                    />
-                    <defs>
-                      <linearGradient id="industrialGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stopColor="#2563eb" />
-                        <stop offset="100%" stopColor="#2563eb" stopOpacity="0" />
-                      </linearGradient>
-                    </defs>
-                    {/* 背景辅助线 */}
-                    {[20, 40, 60, 80].map(y => (
-                      <line key={y} x1="0" y1={y} x2="400" y2={y} stroke="white" strokeOpacity="0.03" strokeWidth="0.5" />
-                    ))}
-                  </svg>
+                <div className="text-5xl font-black text-blue-600">{dynamicData.score}<span className="text-lg text-slate-400">/100</span></div>
+                <div className="mt-3 text-sm text-green-600 flex items-center gap-1 font-bold">
+                  <ArrowUpRight size={16} /> 建议加大欧美市场投放
                 </div>
               </div>
-
-              {/* 资讯与策略链接 */}
-              <div className="space-y-6">
-                <div className="bg-[#121214] border border-white/5 p-8 rounded-sm">
-                  <h3 className="text-xs font-bold text-white uppercase tracking-widest mb-6">Strategic Insights</h3>
-                  <div className="space-y-4">
-                    <p className="text-[11px] leading-relaxed text-zinc-500">
-                      根据云茗荟全球监测点数据显示，该品类目前在欧美B2B端的搜索溢价率提升了 <span className="text-blue-500">14.2%</span>。
-                    </p>
-                    <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-[10px] font-bold text-blue-500 hover:underline">
-                      READ FULL REPORT <ArrowUpRight size={12} />
-                    </a>
-                  </div>
+              <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">内容竞争难度</span>
+                  <Search className="text-orange-500" size={20} />
                 </div>
-                
-                <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" className="block bg-blue-600 p-6 rounded-sm group hover:bg-blue-700 transition-all">
-                  <div className="flex justify-between items-start mb-4">
-                    <ShieldCheck className="text-white" size={24} />
-                    <ArrowUpRight className="text-white/50 group-hover:text-white transition-colors" size={20} />
+                <div className="text-3xl font-black text-slate-800">{dynamicData.level}</div>
+                <p className="mt-2 text-sm text-slate-500">优质长尾词尚有大量空白</p>
+              </div>
+              <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
+                <div className="mb-4 flex items-center justify-between">
+                  <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">推荐利润分级</span>
+                  <FileText className="text-purple-600" size={20} />
+                </div>
+                <div className="text-3xl font-black text-purple-600">A级 (High)</div>
+                <p className="mt-2 text-sm text-slate-500">欧美终端零售价极具优势</p>
+              </div>
+            </div>
+
+            {/* 关键词分析板块 */}
+            <div id="keyword-analysis" className="rounded-3xl bg-white p-8 shadow-sm border border-slate-100 scroll-mt-24">
+              <h3 className="mb-8 flex items-center gap-3 text-2xl font-extrabold text-slate-800">
+                <Search size={24} className="text-blue-600" /> "{product}" 关联热词与趋势
+              </h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {dynamicData.keywords.map((k, i) => (
+                  <div key={i} className="flex items-center justify-between rounded-2xl bg-slate-50 p-5 hover:bg-blue-50 transition-all border border-transparent hover:border-blue-100 group">
+                    <span className="font-bold text-slate-700 group-hover:text-blue-700 transition-colors">{k.word}</span>
+                    <div className="flex gap-4 items-center">
+                      <span className="text-xs font-bold bg-white text-slate-500 px-3 py-1 rounded-full border border-slate-200">难度: {k.diff}</span>
+                      <span className="text-green-600 font-black">{k.trend}</span>
+                    </div>
                   </div>
-                  <div className="text-xs font-bold text-white uppercase tracking-widest">Connect to YMTEA.CLUB</div>
-                </a>
+                ))}
+              </div>
+            </div>
+
+            {/* 方案板块 */}
+            <div id="roadmap" className="rounded-3xl bg-slate-900 p-8 text-white shadow-2xl scroll-mt-24 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-8 opacity-10">
+                <Lightbulb size={120} />
+              </div>
+              <h3 className="mb-10 flex items-center gap-3 text-2xl font-bold relative z-10">
+                <Lightbulb size={28} className="text-yellow-400" /> 出海优化全流程方案
+              </h3>
+              <div className="space-y-6 relative z-10">
+                {dynamicData.suggestions.map((s, i) => (
+                  <div key={i} className="flex gap-5 items-start bg-white/10 p-5 rounded-2xl border border-white/5 backdrop-blur-sm hover:bg-white/15 transition-all">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500 font-black text-white shadow-lg">
+                      {i + 1}
+                    </div>
+                    <p className="text-lg text-slate-100 leading-relaxed">{s}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         )}
       </main>
 
-      <footer className="mt-12 border-t border-white/5 py-12 text-center">
-        <div className="text-[9px] font-bold tracking-[0.6em] text-zinc-800 uppercase">
-          Cloud-Tea Market Terminal © 2026 · Secured by Ymtea Labs
+      <footer className="mt-24 border-t border-slate-200 bg-white py-12 text-center text-slate-400">
+        <div className="flex justify-center gap-2 items-center mb-4">
+          <Globe size={18} />
+          <span className="font-bold text-slate-800">YMTEA LABS GLOBAL</span>
         </div>
+        <p className="text-sm">© 2026 YMTEA Labs · Data-Driven Insights for Global Trade</p>
       </footer>
     </div>
   );
