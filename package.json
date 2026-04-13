@@ -1,0 +1,5 @@
+# 在本地重新创建一个完整的 Next.js 项目
+npx create-next-app@latest . --typescript --tailwind --eslint
+
+# 安装图标库
+npm install lucide-react
