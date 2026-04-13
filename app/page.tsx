@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Loader2, Zap, Globe, ShoppingCart, Users, Truck, MessageCircle, Activity, CheckCircle2, Lightbulb, RefreshCw } from 'lucide-react';
+import { Loader2, Zap, Globe, ShoppingCart, Users, Truck, MessageCircle, Activity, CheckCircle2, Lightbulb, RefreshCw, BarChart3 } from 'lucide-react';
 
 export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
@@ -17,7 +17,6 @@ export default function SEOAnalyzer() {
     integrity: '',
     searchIndex: 0,
     indexTrend: [] as number[],
-    seoTips: [] as string[],
     businessStrategy: { b2b: '', b2c: '', wholesale: '' }
   });
 
@@ -69,11 +68,10 @@ export default function SEOAnalyzer() {
       integrity: (60 + Math.random() * 38).toFixed(2) + '%',
       searchIndex: Math.floor(Math.random() * 6800) + 1200,
       indexTrend: Array.from({ length: 12 }, () => Math.floor(Math.random() * 80) + 20),
-      seoTips: [...seoHintPool].sort(() => 0.5 - Math.random()).slice(0, 3),
       businessStrategy: {
-        b2c: `针对 ${country} 消费者，建议利用独立站结合社媒广告。`,
-        b2b: `建立 LinkedIn 矩阵，精准触达海外采购经理。`,
-        wholesale: `入驻当地 B2B 平台，并优化地图搜索排名。`
+        b2c: `针对 ${country} 市场的零售端，建议通过 Shopify 结合 TikTok 投流，重点针对 ${product} 的便携性与美学进行视觉营销。`,
+        b2b: `该地区的 B2B 需求正处于上升期。建议优化 LinkedIn 公司主页，并定期向 ${country} 的采购经理推送白皮书。`,
+        wholesale: `批发渠道竞争中等。入驻当地大型 B2B 批发目录（如 Europages），并利用 Google Maps 标注本地展示中心。`
       }
     });
 
@@ -112,7 +110,6 @@ export default function SEOAnalyzer() {
                 onChange={(e) => setProduct(e.target.value)} 
                 onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()} 
               />
-              {/* 修正：移除无效的 sm 属性，通过 flex-basis 控制手机端宽度 */}
               <button onClick={handleAnalyze} disabled={analyzing} style={{ flex: '1 0 120px', backgroundColor: '#2563eb', border: 'none', color: 'white', padding: '12px 24px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                 {analyzing ? <Loader2 className="animate-spin" size={14} /> : 'RUN'}
               </button>
@@ -127,6 +124,7 @@ export default function SEOAnalyzer() {
 
         {showResult && (
           <div ref={resultRef}>
+            {/* 核心指标展示 */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '30px' }}>
               <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#0A0A0A', padding: '25px' }}>
                 <span style={{ fontSize: '9px', color: '#52525b' }}>SEARCH INDEX</span>
@@ -153,16 +151,39 @@ export default function SEOAnalyzer() {
               </div>
             </div>
 
-            <section style={{ marginTop: '80px', marginBottom: '80px' }}>
+            {/* --- 新增：业务模式推荐方案 (B2B / B2C / 批发) --- */}
+            <section style={{ marginTop: '80px', marginBottom: '30px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+                <BarChart3 size={18} color="#2563eb" />
+                <span style={{ fontSize: '12px', fontWeight: 'bold', color: 'white', letterSpacing: '0.1em' }}>BUSINESS STRATEGY / 业务模式推荐</span>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)' }}>
+                <div style={{ backgroundColor: '#0A0A0A', padding: '20px' }}>
+                  <h4 style={{ color: '#3b82f6', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px' }}><ShoppingCart size={14}/> B2C 零售策略</h4>
+                  <p style={{ color: 'white', fontSize: '13px', marginTop: '10px', lineHeight: '1.6' }}>{dynamicData.businessStrategy.b2c}</p>
+                </div>
+                <div style={{ backgroundColor: '#0A0A0A', padding: '20px' }}>
+                  <h4 style={{ color: '#10b981', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px' }}><Users size={14}/> B2B 贸易策略</h4>
+                  <p style={{ color: 'white', fontSize: '13px', marginTop: '10px', lineHeight: '1.6' }}>{dynamicData.businessStrategy.b2b}</p>
+                </div>
+                <div style={{ backgroundColor: '#0A0A0A', padding: '20px' }}>
+                  <h4 style={{ color: '#f59e0b', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px' }}><Truck size={14}/> 批发渠道建议</h4>
+                  <p style={{ color: 'white', fontSize: '13px', marginTop: '10px', lineHeight: '1.6' }}>{dynamicData.businessStrategy.wholesale}</p>
+                </div>
+              </div>
+            </section>
+
+            {/* --- SEO 随机优化建议方案 (紧随其后) --- */}
+            <section style={{ marginBottom: '80px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                 <Lightbulb size={18} color="#2563eb" />
-                <span style={{ fontSize: '12px', fontWeight: 'bold', color: 'white', letterSpacing: '0.1em' }}>SEO STRATEGIC ADVISORY / 随机优化方案</span>
+                <span style={{ fontSize: '12px', fontWeight: 'bold', color: 'white', letterSpacing: '0.1em' }}>SEO OPTIMIZATION / 搜索引擎优化建议</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '15px' }}>
                 {currentHints.map((hint, idx) => (
                   <div key={idx} style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(37, 99, 235, 0.2)', padding: '20px' }}>
                     <p style={{ color: '#d1d1d6', fontSize: '12px', lineHeight: '1.6', margin: 0 }}>
-                      <span style={{ color: '#2563eb', fontWeight: 'bold', marginRight: '8px' }}>{idx + 1}.</span>
+                      <span style={{ color: '#2563eb', fontWeight: 'bold', marginRight: '8px' }}>建议 {idx + 1}:</span>
                       {hint}
                     </p>
                   </div>
