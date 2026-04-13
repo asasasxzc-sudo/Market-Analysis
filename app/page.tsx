@@ -1,189 +1,177 @@
 "use client";
-import React, { useState, useRef } from 'react';
-import { Search, BarChart3, FileText, Lightbulb, Globe, ArrowUpRight, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
-export default function SEOAnalyzer() {
+import React, { useState, useRef } from 'react';
+import { Search, Zap, ShieldCheck, Newspaper, ArrowUpRight, Loader2, Globe, BarChart } from 'lucide-react';
+
+export default function Page() {
   const [product, setProduct] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
-
-  // 动态数据状态
-  const [dynamicData, setDynamicData] = useState({
-    score: 0,
-    level: '',
-    keywords: [] as any[],
-    suggestions: [] as string[]
+  
+  const [data, setData] = useState({
+    score: 94,
+    points: "20,80 40,60 60,70 80,40 100,50 120,30 140,20 160,10" // 曲线坐标
   });
 
-  const handleAnalyze = () => {
-    if (!product.trim()) return alert("请输入产品名称");
-    
+  const runAnalysis = () => {
+    if (!product.trim()) return;
     setAnalyzing(true);
     setShowResult(false);
-
-    // 模拟数据计算逻辑
+    
     setTimeout(() => {
-      const randomScore = Math.floor(Math.random() * 20) + 75; // 生成 75-95 之间的分数
-      setDynamicData({
-        score: randomScore,
-        level: randomScore > 88 ? '极高潜力' : '高增长',
-        keywords: [
-          { word: `Best ${product} reviews 2026`, diff: '容易', trend: '+156%' },
-          { word: `Organic ${product} wholesale`, diff: '中等', trend: '+88%' },
-          { word: `Where to buy ${product} in Europe`, diff: '低难度', trend: '+62%' },
-          { word: `${product} sustainable packaging`, diff: '容易', trend: '+110%' },
-        ],
-        suggestions: [
-          `在欧美市场强调 "${product}" 的环保属性与可追溯性，这是当前消费者的核心关注点。`,
-          `针对 Google 搜索结果优化 "${product}" 的对比类文章（Top 10 list）。`,
-          `该产品在 YouTube 和 TikTok 的开箱视频声量正处于爆发前期，建议布局视频内容。`
-        ]
-      });
       setAnalyzing(false);
       setShowResult(true);
-      
-      // 延迟确保 DOM 渲染后平滑滚动
-      setTimeout(() => {
-        resultRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }, 100);
+      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
     }, 1500);
   };
 
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900 scroll-smooth">
-      {/* 导航栏 - 增加了点击跳转逻辑 */}
-      <nav className="sticky top-0 z-50 border-b bg-white/80 px-6 py-4 backdrop-blur-md shadow-sm">
-        <div className="mx-auto flex max-w-7xl items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
-            <div className="rounded-lg bg-blue-600 p-2 text-white">
-              <Globe size={24} />
+    <div className="min-h-screen bg-[#030303] text-zinc-400 font-sans selection:bg-blue-500/30">
+      <nav className="border-b border-white/5 bg-black/60 backdrop-blur-xl sticky top-0 z-50">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+          <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 group">
+            <div className="bg-blue-600 p-1.5 rounded-lg group-hover:shadow-[0_0_15px_rgba(37,99,235,0.5)] transition-all">
+              <Zap size={16} className="text-white" fill="currentColor" />
             </div>
-            <span className="text-xl font-bold tracking-tight">YMTEA Labs</span>
-          </div>
-          <div className="hidden space-x-8 text-sm font-medium md:flex">
-            <button onClick={() => scrollToSection('market-index')} className="hover:text-blue-600 transition">市场指数</button>
-            <button onClick={() => scrollToSection('keyword-analysis')} className="hover:text-blue-600 transition">关键词分析</button>
-            <button onClick={() => scrollToSection('roadmap')} className="hover:text-blue-600 transition">优化方案</button>
+            <span className="text-sm font-black tracking-widest text-white uppercase">YMTEA LABS</span>
+          </a>
+          <div className="flex items-center gap-8">
+            <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" className="text-[11px] font-bold text-zinc-500 hover:text-white transition-colors tracking-widest flex items-center gap-2">
+              <Newspaper size={14} /> BLOG
+            </a>
+            <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 text-[10px] font-bold text-white hover:bg-white/10 transition-all">
+              YMTEA.CLUB
+            </a>
           </div>
         </div>
       </nav>
 
-      <main className="mx-auto max-w-7xl px-6 py-12">
-        {/* 搜索区域 */}
-        <section className="mb-16 text-center pt-10">
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight md:text-5xl lg:text-6xl text-slate-900">
-            欧美市场前景诊断
+      <main className="mx-auto max-w-5xl px-6 py-24">
+        <section className="text-center mb-24">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-500 text-[10px] font-bold tracking-widest uppercase mb-8">
+            <Globe size={12} /> Global Intelligence Engine
+          </div>
+          <h1 className="text-6xl md:text-8xl font-black text-white tracking-tighter mb-8 italic">
+            Market <span className="text-blue-600 underline decoration-1 underline-offset-8">Alpha.</span>
           </h1>
-          <p className="mb-8 text-lg text-slate-600 max-w-2xl mx-auto">
-            基于 Ymtea 实时算法，为您提供精准的产品出海 SEO 建议与趋势预测
+          <p className="max-w-xl mx-auto text-zinc-500 text-lg font-medium mb-12 leading-relaxed">
+            参考 Morank.ai 驱动的专业贸易终端。输入产品 niche，获取实时增长曲线。
           </p>
-          
-          <div className="mx-auto flex max-w-2xl gap-2 rounded-2xl bg-white p-2 shadow-2xl border border-slate-200 focus-within:ring-2 ring-blue-500 transition-all duration-300">
-            <input 
-              type="text" 
-              placeholder="输入产品 (例如: Pu-erh Tea)" 
-              className="flex-1 px-4 py-3 outline-none rounded-l-xl text-lg"
-              value={product}
-              onChange={(e) => setProduct(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
-            />
-            <button 
-              onClick={handleAnalyze}
-              disabled={analyzing}
-              className="rounded-xl bg-blue-600 px-8 py-3 font-bold text-white transition hover:bg-blue-700 active:scale-95 disabled:bg-slate-400 flex items-center gap-2"
-            >
-              {analyzing ? <><Loader2 className="animate-spin" size={20} /> 分析中</> : '开始诊断'}
-            </button>
+
+          <div className="max-w-2xl mx-auto relative group">
+            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl blur opacity-20 group-focus-within:opacity-40 transition duration-1000"></div>
+            <div className="relative flex p-2 bg-[#0A0A0A] border border-white/10 rounded-2xl">
+              <input 
+                className="flex-1 bg-transparent px-6 py-4 text-white outline-none placeholder:text-zinc-800 font-bold text-lg"
+                placeholder="Search market trends..."
+                value={product}
+                onChange={(e) => setProduct(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && runAnalysis()}
+              />
+              <button 
+                onClick={runAnalysis}
+                className="bg-blue-600 text-white px-10 py-4 rounded-xl font-black text-xs uppercase tracking-[0.2em] hover:bg-blue-500 transition-all shadow-lg"
+              >
+                {analyzing ? <Loader2 className="animate-spin" size={18} /> : 'ANALYZE'}
+              </button>
+            </div>
           </div>
         </section>
 
         {showResult && (
-          <div ref={resultRef} className="space-y-12 animate-in fade-in slide-in-from-bottom-6 duration-1000">
-            {/* 市场指数板块 */}
-            <div id="market-index" className="grid grid-cols-1 gap-6 md:grid-cols-3 scroll-mt-24">
-              <div className="rounded-2xl bg-white p-6 shadow-sm border-2 border-blue-50">
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">市场潜力值</span>
-                  <BarChart3 className="text-blue-600" size={20} />
+          <div ref={resultRef} className="space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              <div className="md:col-span-2 bg-[#0A0A0A] border border-white/5 rounded-[2.5rem] p-10 group hover:border-blue-500/30 transition-all">
+                <div className="flex justify-between items-start mb-12">
+                  <div>
+                    <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-blue-500 mb-2">Growth Index</h3>
+                    <div className="text-5xl font-black text-white">{data.score}<span className="text-zinc-700 text-2xl">.0</span></div>
+                  </div>
+                  <BarChart className="text-zinc-800" />
                 </div>
-                <div className="text-5xl font-black text-blue-600">{dynamicData.score}<span className="text-lg text-slate-400">/100</span></div>
-                <div className="mt-3 text-sm text-green-600 flex items-center gap-1 font-bold">
-                  <ArrowUpRight size={16} /> 建议加大欧美市场投放
+                
+                <div className="h-48 w-full relative">
+                  <svg viewBox="0 0 200 100" className="w-full h-full overflow-visible">
+                    <defs>
+                      <linearGradient id="lineGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor="#2563eb" stopOpacity="0.5" />
+                        <stop offset="100%" stopColor="#2563eb" stopOpacity="0" />
+                      </linearGradient>
+                    </defs>
+                    <path 
+                      d="M 0 80 C 40 80, 60 20, 100 40 S 160 0, 200 10" 
+                      fill="none" 
+                      stroke="#2563eb" 
+                      strokeWidth="3" 
+                      className="drop-shadow-[0_0_8px_rgba(37,99,235,0.8)]"
+                    />
+                    <path 
+                      d="M 0 80 C 40 80, 60 20, 100 40 S 160 0, 200 10 V 100 H 0 Z" 
+                      fill="url(#lineGrad)"
+                    />
+                  </svg>
+                </div>
+                <div className="flex justify-between mt-6 text-[9px] font-black text-zinc-800 uppercase tracking-widest">
+                  <span>Past 12 Months</span>
+                  <span>Market Forecast</span>
                 </div>
               </div>
-              <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">内容竞争难度</span>
-                  <Search className="text-orange-500" size={20} />
+
+              <div className="bg-blue-600 rounded-[2.5rem] p-10 text-white flex flex-col justify-between shadow-2xl shadow-blue-900/40 relative overflow-hidden group">
+                <div className="relative z-10">
+                  <ShieldCheck className="mb-6 opacity-50" size={40} />
+                  <div className="text-xs font-bold uppercase tracking-[0.3em] mb-2">Signal Status</div>
+                  <div className="text-4xl font-black italic italic">STABLE</div>
                 </div>
-                <div className="text-3xl font-black text-slate-800">{dynamicData.level}</div>
-                <p className="mt-2 text-sm text-slate-500">优质长尾词尚有大量空白</p>
-              </div>
-              <div className="rounded-2xl bg-white p-6 shadow-sm border border-slate-100">
-                <div className="mb-4 flex items-center justify-between">
-                  <span className="text-sm font-bold text-slate-500 uppercase tracking-wider">推荐利润分级</span>
-                  <FileText className="text-purple-600" size={20} />
-                </div>
-                <div className="text-3xl font-black text-purple-600">A级 (High)</div>
-                <p className="mt-2 text-sm text-slate-500">欧美终端零售价极具优势</p>
+                <p className="relative z-10 text-sm font-bold text-blue-100 leading-relaxed opacity-80">
+                  当前品类在 <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" className="underline decoration-white/30">YMTEA</a> 核心监测区域表现强劲。
+                </p>
+                <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
               </div>
             </div>
 
-            {/* 关键词分析板块 */}
-            <div id="keyword-analysis" className="rounded-3xl bg-white p-8 shadow-sm border border-slate-100 scroll-mt-24">
-              <h3 className="mb-8 flex items-center gap-3 text-2xl font-extrabold text-slate-800">
-                <Search size={24} className="text-blue-600" /> "{product}" 关联热词与趋势
-              </h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {dynamicData.keywords.map((k, i) => (
-                  <div key={i} className="flex items-center justify-between rounded-2xl bg-slate-50 p-5 hover:bg-blue-50 transition-all border border-transparent hover:border-blue-100 group">
-                    <span className="font-bold text-slate-700 group-hover:text-blue-700 transition-colors">{k.word}</span>
-                    <div className="flex gap-4 items-center">
-                      <span className="text-xs font-bold bg-white text-slate-500 px-3 py-1 rounded-full border border-slate-200">难度: {k.diff}</span>
-                      <span className="text-green-600 font-black">{k.trend}</span>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="bg-[#0A0A0A] border border-white/5 rounded-[2.5rem] p-10">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 mb-10">Keywords Alpha</h3>
+                <div className="space-y-6">
+                  {[["Premium Supply", "+142%"], ["Global Trade", "+96%"], ["B2B Niche", "+54%"]].map((item, i) => (
+                    <div key={i} className="flex justify-between items-center group cursor-default">
+                      <span className="text-sm font-bold text-zinc-300 group-hover:text-white transition-colors">{item[0]}</span>
+                      <div className="flex items-center gap-4">
+                        <span className="text-sm font-black text-blue-500">{item[1]}</span>
+                        <ArrowUpRight size={14} className="text-zinc-800" />
+                      </div>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* 方案板块 */}
-            <div id="roadmap" className="rounded-3xl bg-slate-900 p-8 text-white shadow-2xl scroll-mt-24 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-8 opacity-10">
-                <Lightbulb size={120} />
-              </div>
-              <h3 className="mb-10 flex items-center gap-3 text-2xl font-bold relative z-10">
-                <Lightbulb size={28} className="text-yellow-400" /> 出海优化全流程方案
-              </h3>
-              <div className="space-y-6 relative z-10">
-                {dynamicData.suggestions.map((s, i) => (
-                  <div key={i} className="flex gap-5 items-start bg-white/10 p-5 rounded-2xl border border-white/5 backdrop-blur-sm hover:bg-white/15 transition-all">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-blue-500 font-black text-white shadow-lg">
-                      {i + 1}
-                    </div>
-                    <p className="text-lg text-slate-100 leading-relaxed">{s}</p>
-                  </div>
-                ))}
+              <div className="bg-[#0A0A0A] border border-white/5 rounded-[2.5rem] p-10 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-[10px] font-bold uppercase tracking-[0.3em] text-zinc-600 mb-10">Strategic Insights</h3>
+                  <p className="text-sm text-zinc-500 font-medium leading-[1.8]">
+                    • 建议加强与 <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" className="text-zinc-300 border-b border-zinc-800">云茗荟</a> 供应链的深度集成。
+                    <br />• 优化 SEO 以匹配 2026 年欧美市场的“可持续”搜索趋势。
+                  </p>
+                </div>
+                <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" className="mt-12 flex items-center justify-between p-6 bg-white/[0.02] border border-white/5 rounded-2xl hover:bg-white/5 transition-all group">
+                  <span className="text-xs font-black text-white tracking-widest uppercase">Explore Intelligence</span>
+                  <ArrowUpRight size={18} className="text-zinc-600 group-hover:text-blue-500 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
+                </a>
               </div>
             </div>
           </div>
         )}
       </main>
 
-      <footer className="mt-24 border-t border-slate-200 bg-white py-12 text-center text-slate-400">
-        <div className="flex justify-center gap-2 items-center mb-4">
-          <Globe size={18} />
-          <span className="font-bold text-slate-800">YMTEA LABS GLOBAL</span>
-        </div>
-        <p className="text-sm">© 2026 YMTEA Labs · Data-Driven Insights for Global Trade</p>
+      <footer className="py-20 text-center border-t border-white/5 bg-black/20">
+        <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" className="inline-block mb-6 opacity-30 hover:opacity-100 transition-opacity">
+          <Zap size={24} className="text-zinc-500" />
+        </a>
+        <p className="text-[9px] font-bold tracking-[0.6em] text-zinc-800 uppercase">
+          Terminal v2.0 powered by <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer">YMTEA.CLUB</a>
+        </p>
       </footer>
     </div>
   );
