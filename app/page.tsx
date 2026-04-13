@@ -8,11 +8,14 @@ export default function Page() {
   const [analyzing, setAnalyzing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
+  
   const [data, setData] = useState({
     score: 0,
-    trend: [20, 45, 30, 80, 50, 95, 70, 88],
-    keywords: [] as any[],
-    tips: [] as string[]
+    trend: [30, 50, 40, 70, 55, 90, 75, 95],
+    keywords: [
+      { name: "Premium Supply", val: "+156%" },
+      { name: "Global Wholesale", val: "+89%" }
+    ]
   });
 
   const runAnalysis = () => {
@@ -21,28 +24,16 @@ export default function Page() {
     setShowResult(false);
     
     setTimeout(() => {
-      setData({
-        score: 94,
-        trend: [25, 50, 35, 85, 60, 100, 80, 92],
-        keywords: [
-          { name: "Premium Supply", val: "+156%" },
-          { name: "Global Wholesale", val: "+89%" },
-          { name: "Eco Packaging", val: "+42%" }
-        ],
-        tips: [
-          "Target high-end EU distributors via YMTEA network.",
-          "Optimize SEO for sustainable luxury keywords.",
-          "Check ymtea.club/blog for Q2 market forecasts."
-        ]
-      });
+      setData(prev => ({ ...prev, score: 94 }));
       setAnalyzing(false);
       setShowResult(true);
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
-    }, 1200);
+    }, 1000);
   };
 
   return (
-    <div className="min-h-screen bg-black text-zinc-400 font-sans">
+    <div className="min-h-screen bg-black text-zinc-400">
+      {/* 导航栏 */}
       <nav className="border-b border-white/10 bg-black/80 backdrop-blur-md sticky top-0 z-50">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2">
@@ -58,14 +49,15 @@ export default function Page() {
       </nav>
 
       <main className="mx-auto max-w-5xl px-6 py-16">
+        {/* 头部展示区 */}
         <section className="text-center mb-16">
-          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-6">Market Pulse</h1>
-          <p className="max-w-md mx-auto text-zinc-500 text-sm mb-10">Professional intelligence terminal for Cloud-Tea (云茗荟) partners.</p>
+          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-6 italic">Market Dynamics</h1>
+          <p className="max-w-md mx-auto text-zinc-500 text-sm mb-10">云茗荟 (YMTEA) 全球合作伙伴专业数据终端</p>
 
-          <div className="max-w-xl mx-auto flex gap-2 p-2 bg-zinc-900/50 border border-white/10 rounded-2xl">
+          <div className="max-w-xl mx-auto flex gap-2 p-2 bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl">
             <input 
-              className="flex-1 bg-transparent px-4 py-2 text-white outline-none placeholder:text-zinc-700"
-              placeholder="Enter niche..."
+              className="flex-1 bg-transparent px-4 py-2 text-white outline-none"
+              placeholder="输入产品名称..."
               value={product}
               onChange={(e) => setProduct(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && runAnalysis()}
@@ -74,37 +66,41 @@ export default function Page() {
               onClick={runAnalysis}
               className="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold text-xs uppercase hover:bg-blue-500 transition-colors"
             >
-              {analyzing ? <Loader2 className="animate-spin" size={16} /> : 'Analyze'}
+              {analyzing ? <Loader2 className="animate-spin" size={16} /> : '分析'}
             </button>
           </div>
         </section>
 
         {showResult && (
           <div ref={resultRef} className="space-y-6">
+            {/* 指数趋势 - 块状结构 */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="md:col-span-2 bg-zinc-900/30 border border-white/5 rounded-3xl p-8">
+              <div className="md:col-span-2 bg-zinc-900/40 border border-white/5 rounded-3xl p-8">
                 <div className="flex justify-between items-center mb-8">
                   <span className="text-[10px] font-bold uppercase tracking-widest text-blue-500 flex items-center gap-2">
-                    <LineChart size={14} /> Trend Index
+                    <LineChart size={14} /> 趋势指数 (Trend Index)
                   </span>
                   <span className="text-2xl font-black text-white">{data.score}</span>
                 </div>
-                <div className="h-32 flex items-end gap-1.5 px-2">
+                {/* 线状体现 (简易折线趋势) */}
+                <div className="h-32 flex items-end gap-2 px-2">
                   {data.trend.map((v, i) => (
-                    <div key={i} className="flex-1 bg-blue-600/20 rounded-t hover:bg-blue-500 transition-colors" style={{ height: `${v}%` }}></div>
+                    <div key={i} className="flex-1 bg-gradient-to-t from-blue-600/10 to-blue-500/60 rounded-t hover:to-blue-400 transition-all" style={{ height: `${v}%` }}></div>
                   ))}
                 </div>
               </div>
-              <div className="bg-blue-600 rounded-3xl p-8 text-white flex flex-col justify-center shadow-lg shadow-blue-900/20">
+              
+              <div className="bg-blue-600 rounded-3xl p-8 text-white flex flex-col justify-center shadow-xl shadow-blue-900/20">
                 <ShieldCheck className="mb-4" size={32} />
-                <div className="text-3xl font-black">STABLE</div>
-                <p className="text-xs mt-2 font-bold text-blue-100">Market health score is optimal.</p>
+                <div className="text-3xl font-black italic text-white leading-none">STABLE</div>
+                <p className="text-xs mt-3 font-bold text-blue-100">市场健康度极佳</p>
               </div>
             </div>
 
+            {/* 资讯与策略 - 块状结构 */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-zinc-900/30 border border-white/5 rounded-3xl p-8">
-                <h3 className="text-[10px] font-bold uppercase text-zinc-600 mb-6 tracking-widest">Keywords Alpha</h3>
+              <div className="bg-zinc-900/40 border border-white/5 rounded-3xl p-8">
+                <h3 className="text-[10px] font-bold uppercase text-zinc-600 mb-6 tracking-widest">核心关键词</h3>
                 <div className="space-y-4">
                   {data.keywords.map((k, i) => (
                     <div key={i} className="flex justify-between items-center py-2 border-b border-white/5">
@@ -114,15 +110,17 @@ export default function Page() {
                   ))}
                 </div>
               </div>
-              <div className="bg-zinc-900/30 border border-white/5 rounded-3xl p-8 flex flex-col justify-between">
-                <div>
-                  <h3 className="text-[10px] font-bold uppercase text-zinc-600 mb-6 tracking-widest">Quick Strategy</h3>
-                  {data.tips.map((t, i) => (
-                    <p key={i} className="text-xs text-zinc-500 mb-3 leading-relaxed">• {t}</p>
-                  ))}
+
+              <div className="bg-zinc-900/40 border border-white/5 rounded-3xl p-8 flex flex-col justify-between">
+                <div className="space-y-4">
+                  <h3 className="text-[10px] font-bold uppercase text-zinc-600 tracking-widest">快速策略</h3>
+                  <p className="text-xs text-zinc-500 leading-relaxed">• 建议优先布局欧盟绿色贸易准入认证</p>
+                  <p className="text-xs text-zinc-500 leading-relaxed">• 针对北美市场优化“DTC”直达逻辑</p>
                 </div>
-                <a href="https://ymtea.club/blog" className="mt-6 flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group">
-                  <span className="text-[10px] font-bold text-white tracking-widest">EXPLORE BLOG</span>
+                <a href="https://ymtea.club/blog" className="mt-8 flex items-center justify-between p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group">
+                  <span className="text-[10px] font-bold text-white tracking-widest flex items-center gap-2">
+                    <Newspaper size={14} className="text-blue-500" /> 进入资讯中心
+                  </span>
                   <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
@@ -132,7 +130,7 @@ export default function Page() {
       </main>
 
       <footer className="py-12 text-center">
-        <p className="text-[9px] font-bold tracking-[0.5em] text-zinc-800">YMTEA INTELLIGENCE TERMINAL 2026</p>
+        <p className="text-[9px] font-bold tracking-[0.5em] text-zinc-800">YMTEA INTELLIGENCE TERMINAL · 2026</p>
       </footer>
     </div>
   );
