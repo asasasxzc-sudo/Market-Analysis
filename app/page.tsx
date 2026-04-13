@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { Loader2, Zap, Globe, ShoppingCart, Users, Truck, MessageCircle, Activity, ShieldCheck, ZapIcon, BarChart4, FileText, Layout, Target, Code2 } from 'lucide-react';
+import { Loader2, Zap, Globe, ShoppingCart, Users, Truck, MessageCircle, Activity, FileText, Layout, Target, Code2 } from 'lucide-react';
 
 export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
@@ -195,7 +195,6 @@ export default function SEOAnalyzer() {
             </div>
           </div>
 
-          {/* 居中联系按钮 */}
           <div className="text-center mb-24">
             <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" className="inline-block bg-white text-black px-12 py-4 font-black text-sm hover:bg-zinc-200 transition-colors no-underline">
               联系我们
@@ -204,7 +203,6 @@ export default function SEOAnalyzer() {
         </section>
       </main>
 
-      {/* 底部版权 */}
       <footer className="border-t border-white/5 py-12 text-center bg-black">
         <div className="flex justify-center gap-8 mb-6 flex-wrap">
           <a href="https://ymtea.club" className="text-white no-underline text-xs">HOME / 官网</a>
@@ -215,3 +213,4 @@ export default function SEOAnalyzer() {
       </footer>
     </div>
   );
+}
