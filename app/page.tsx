@@ -45,7 +45,11 @@ export default function SEOAnalyzer() {
   };
 
   const handleAnalyze = async () => {
-    if (!product.trim()) return alert("请输入内容");
+    if (!product.trim()) {
+      alert("请输入内容");
+      return;
+    }
+    
     setAnalyzing(true);
     setShowResult(false);
     
@@ -76,7 +80,10 @@ export default function SEOAnalyzer() {
 
     setAnalyzing(false);
     setShowResult(true);
-    setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' }), 200);
+    
+    setTimeout(() => {
+      resultRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, 200);
   };
 
   return (
@@ -102,7 +109,14 @@ export default function SEOAnalyzer() {
               <select value={country} onChange={(e) => setCountry(e.target.value)} style={{ backgroundColor: '#111', color: 'white', border: 'none', padding: '0 10px', outline: 'none', fontSize: '12px', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
                 {countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
               </select>
-              <input type="text" placeholder="PRODUCT / NICHE..." style={{ flex: 1, backgroundColor: 'transparent', border: 'none', outline: 'none', color: 'white', padding: '12px' }} value={product} onChange={(e) => setProduct(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()} />
+              <input 
+                type="text" 
+                placeholder="PRODUCT / NICHE..." 
+                style={{ flex: 1, backgroundColor: 'transparent', border: 'none', outline: 'none', color: 'white', padding: '12px' }} 
+                value={product} 
+                onChange={(e) => setProduct(e.target.value)} 
+                onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()} 
+              />
               <button onClick={handleAnalyze} disabled={analyzing} style={{ backgroundColor: '#2563eb', border: 'none', color: 'white', padding: '0 20px', fontWeight: 'bold', cursor: 'pointer' }}>
                 {analyzing ? <Loader2 className="animate-spin" size={14} /> : 'RUN'}
               </button>
@@ -111,7 +125,7 @@ export default function SEOAnalyzer() {
         </section>
 
         {showResult && (
-          <div ref={resultRef} style={{ animation: 'fadeIn 0.5s ease' }}>
+          <div ref={resultRef}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '30px' }}>
               <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#0A0A0A', padding: '25px' }}>
                 <span style={{ fontSize: '9px', color: '#52525b' }}>SEARCH INDEX (MO.)</span>
@@ -145,4 +159,59 @@ export default function SEOAnalyzer() {
               </div>
               <div style={{ backgroundColor: '#0A0A0A', padding: '20px' }}>
                 <h4 style={{ color: '#10b981', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px' }}><Users size={14}/> B2B 方案</h4>
-                <p style={{ color: 'white', fontSize: '13px
+                <p style={{ color: 'white', fontSize: '13px', marginTop: '10px' }}>{dynamicData.businessStrategy.b2b}</p>
+              </div>
+              <div style={{ backgroundColor: '#0A0A0A', padding: '20px' }}>
+                <h4 style={{ color: '#f59e0b', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px' }}><Truck size={14}/> 批发渠道</h4>
+                <p style={{ color: 'white', fontSize: '13px', marginTop: '10px' }}>{dynamicData.businessStrategy.wholesale}</p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <section style={{ marginTop: '100px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '60px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <h2 style={{ color: 'white', fontSize: '24px', fontWeight: '900', marginBottom: '10px' }}>由「云茗荟」倾力打造</h2>
+            <p style={{ color: '#3b82f6', fontSize: '14px', fontStyle: 'italic' }}>"因为懂 SEO，所以更懂你需要什么。"</p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginBottom: '40px' }}>
+            {[
+              { t: "拒绝假大空", d: "构建全球品牌阵地，云茗荟出口十余年，用最真实的数据说话。" },
+              { t: "极致的能力", d: "给会员行业链接，商务引擎，供需匹配。" },
+              { t: "100% 为独立站定制", d: "所有输出逻辑、建站 UI 风格全为 ToB 外贸询盘场景深度调优。" },
+              { t: "同享物流渠道", d: "稳定、快速、安全、完善、透明的物流体系。" },
+              { t: "SEO、GEO优化", d: "告别盲目烧钱，深度内容矩阵，打破流量天花板。" },
+              { t: "会员免费活动", d: "每周6天，茶道、非遗刻花、宋代点茶、高端茶圈活动享不停。" },
+              { t: "门店免品权", d: "会员每日可到任意门店免费品茶。" }
+            ].map((item, idx) => (
+              <div key={idx} style={{ backgroundColor: 'rgba(255,255,255,0.02)', padding: '20px', borderLeft: '2px solid #2563eb' }}>
+                <div style={{ color: 'white', fontSize: '14px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+                  <CheckCircle2 size={14} color="#2563eb" /> {item.t}
+                </div>
+                <p style={{ fontSize: '12px', lineHeight: '1.6', color: '#71717a' }}>{item.d}</p>
+              </div>
+            ))}
+          </div>
+          
+          <div style={{ textAlign: 'center' }}>
+             <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', backgroundColor: 'white', color: 'black', padding: '16px 40px', fontSize: '14px', fontWeight: '900', textDecoration: 'none', textTransform: 'uppercase' }}>
+               立即咨询 / 联系我们
+             </a>
+          </div>
+        </section>
+      </main>
+
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 0', textAlign: 'center', marginTop: '60px' }}>
+        <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
+          <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>HOME / 官网</a>
+          <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>BLOG / 资讯</a>
+          <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <MessageCircle size={14} /> 了解“云茗荟”
+          </a>
+        </div>
+        <div style={{ fontSize: '9px', color: 'white', letterSpacing: '0.2em' }}>© 2026 YMTEA LABS · GLOBAL MARKET DATA TERMINAL</div>
+      </footer>
+    </div>
+  );
+}
