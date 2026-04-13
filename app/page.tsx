@@ -60,7 +60,6 @@ export default function SEOAnalyzer() {
     setShowResult(false);
     refreshHints();
     
-    // 模拟分析延迟
     await new Promise(resolve => setTimeout(resolve, 2000));
 
     const levels = ['OPTIMAL', 'HIGH POTENTIAL', 'SATURATED', 'STABLE MARKET', 'EMERGING'];
@@ -85,7 +84,6 @@ export default function SEOAnalyzer() {
 
   return (
     <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#a1a1aa', fontFamily: 'monospace' }}>
-      {/* 导航 */}
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(0,0,0,0.8)', padding: '16px 32px', position: 'sticky', top: 0, zIndex: 50 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={handleReset}>
           <div style={{ backgroundColor: '#2563eb', padding: '4px', borderRadius: '2px' }}><Zap size={14} style={{ color: 'white' }} /></div>
@@ -95,7 +93,6 @@ export default function SEOAnalyzer() {
       </nav>
 
       <main style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '1000px', padding: '60px 24px' }}>
-        {/* 头部搜索区 */}
         <section style={{ textAlign: 'center', marginBottom: '60px' }}>
           <div style={{ color: '#3b82f6', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 12px', display: 'inline-flex', marginBottom: '20px', fontSize: '10px' }}>
              <Globe size={12} style={{ marginRight: '8px' }} /> REGIONAL NODE SELECTOR
@@ -103,7 +100,6 @@ export default function SEOAnalyzer() {
           <h1 style={{ color: 'white', fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: '900', textTransform: 'uppercase', marginBottom: '40px' }}>Global <span style={{ color: '#2563eb' }}>Intelligence</span></h1>
           
           <div style={{ maxWidth: '600px', margin: '0 auto' }}>
-            {/* 修复手机端出界：使用 flex-wrap 和 min-width 控制 */}
             <div style={{ display: 'flex', flexWrap: 'wrap', border: '1px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(20,20,20,0.5)', padding: '2px' }}>
               <select value={country} onChange={(e) => setCountry(e.target.value)} style={{ backgroundColor: '#111', color: 'white', border: 'none', padding: '12px', outline: 'none', fontSize: '12px', flex: '0 0 auto', borderRight: '1px solid rgba(255,255,255,0.1)' }}>
                 {countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
@@ -116,7 +112,8 @@ export default function SEOAnalyzer() {
                 onChange={(e) => setProduct(e.target.value)} 
                 onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()} 
               />
-              <button onClick={handleAnalyze} disabled={analyzing} style={{ flex: '1 1 100%', sm: 'flex: 0 0 auto', backgroundColor: '#2563eb', border: 'none', color: 'white', padding: '12px 24px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+              {/* 修正：移除无效的 sm 属性，通过 flex-basis 控制手机端宽度 */}
+              <button onClick={handleAnalyze} disabled={analyzing} style={{ flex: '1 0 120px', backgroundColor: '#2563eb', border: 'none', color: 'white', padding: '12px 24px', fontWeight: 'bold', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
                 {analyzing ? <Loader2 className="animate-spin" size={14} /> : 'RUN'}
               </button>
             </div>
@@ -129,8 +126,7 @@ export default function SEOAnalyzer() {
         </section>
 
         {showResult && (
-          <div ref={resultRef} style={{ animation: 'fadeIn 0.5s ease' }}>
-            {/* 数据展示区 */}
+          <div ref={resultRef}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '30px' }}>
               <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#0A0A0A', padding: '25px' }}>
                 <span style={{ fontSize: '9px', color: '#52525b' }}>SEARCH INDEX</span>
@@ -157,7 +153,6 @@ export default function SEOAnalyzer() {
               </div>
             </div>
 
-            {/* --- 仅在搜索后出现的优化建议方案 --- */}
             <section style={{ marginTop: '80px', marginBottom: '80px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                 <Lightbulb size={18} color="#2563eb" />
@@ -177,7 +172,6 @@ export default function SEOAnalyzer() {
           </div>
         )}
 
-        {/* --- 品牌实力看板 --- */}
         <section style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '60px' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <h2 style={{ color: 'white', fontSize: '24px', fontWeight: '900', marginBottom: '10px' }}>由「云茗荟」倾力打造</h2>
