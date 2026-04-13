@@ -40,7 +40,9 @@ export default function SEOAnalyzer() {
       });
       setAnalyzing(false);
       setShowResult(true);
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     }, 1500);
   };
 
@@ -111,51 +113,4 @@ export default function SEOAnalyzer() {
                 </div>
               </div>
 
-              <div className="bg-[#0A0A0A] p-8 flex flex-col justify-between border-b md:border-b-0 border-white/5">
-                <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-zinc-600">Status.Level</span>
-                <div className="text-2xl font-black text-white italic tracking-tighter uppercase">{dynamicData.level}</div>
-                <p className="mt-4 text-[9px] font-medium text-zinc-700 leading-relaxed uppercase tracking-widest">Global demand consistency confirmed</p>
-              </div>
-
-              <div className="bg-[#0E0E0E] p-8 flex flex-col justify-between border-l border-white/5 relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-4 opacity-5">
-                  <ShieldCheck size={64} />
-                </div>
-                <span className="text-[9px] font-bold uppercase tracking-[0.3em] text-blue-500">Tier.Class</span>
-                <div className="text-4xl font-black italic text-white uppercase">Alpha</div>
-                <div className="mt-4 text-[9px] font-bold text-zinc-500 tracking-tighter uppercase">Market verified</div>
-              </div>
-            </div>
-
-            {/* 关键词网格 */}
-            <div id="keyword-analysis" className="bg-[#0A0A0A] border border-white/5">
-              <div className="border-b border-white/5 px-8 py-5">
-                <h3 className="text-[10px] font-bold uppercase tracking-[0.4em] text-zinc-500 flex items-center gap-2 font-black">
-                   Data.Matrix [ {product} ]
-                </h3>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2">
-                {dynamicData.keywords.map((k, i) => (
-                  <div key={i} className="flex items-center justify-between border-white/5 p-6 odd:border-r hover:bg-white/[0.01] transition-colors border-b">
-                    <span className="text-xs font-black text-zinc-200 tracking-widest uppercase">{k.word}</span>
-                    <div className="flex items-center gap-6">
-                      <div className="text-right">
-                        <div className="text-[7px] text-zinc-700 font-bold uppercase tracking-widest">Diff</div>
-                        <div className="text-[9px] font-black text-zinc-500">{k.diff}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-[7px] text-zinc-700 font-bold uppercase tracking-widest">Trend</div>
-                        <div className="text-[9px] font-black text-blue-600">{k.trend}</div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* 优化路线 - 模块化设计 */}
-            <div id="roadmap" className="bg-white p-10 text-black shadow-2xl relative">
-              <div className="absolute top-0 left-0 w-1 h-full bg-blue-600"></div>
-              <h3 className="mb-12 text-[10px] font-black uppercase tracking-[0.5em] flex items-center gap-2">
-                 Roadmap.Intelligence
-              </h3>
+              <div className="bg-[#0A0A0A] p-8 flex flex-col justify-between
