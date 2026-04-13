@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { Loader2, Zap, Cpu, Lightbulb, Globe, BarChart3, Users, ShoppingCart, Truck, MessageCircle } from 'lucide-react';
+import { Loader2, Zap, Cpu, Lightbulb, Globe, BarChart3, Users, ShoppingCart, Truck, MessageCircle, Activity } from 'lucide-react';
 
 export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
@@ -15,7 +15,8 @@ export default function SEOAnalyzer() {
     score: 0,
     level: '',
     integrity: '',
-    keywords: [] as any[],
+    searchIndex: 0,
+    indexTrend: [] as number[],
     seoTips: [] as string[],
     businessStrategy: { b2b: '', b2c: '', wholesale: '' }
   });
@@ -33,7 +34,7 @@ export default function SEOAnalyzer() {
     const steps = [
       `CONNECTING TO ${country} SERVERS...`,
       "ANALYZING MARKET SATURATION...",
-      `EXTRACTING LOCAL DATA FOR: ${product.toUpperCase()}`,
+      `CALCULATING SEARCH VOLUME FOR: ${product.toUpperCase()}`,
       "GENERATING MULTI-CHANNEL STRATEGIES...",
       "COMPILING FINAL REPORT..."
     ];
@@ -50,9 +51,7 @@ export default function SEOAnalyzer() {
     
     await runDiagnostics();
 
-    // 随机评价池
     const levels = ['OPTIMAL', 'HIGH POTENTIAL', 'SATURATED', 'STABLE MARKET', 'EMERGING', 'COMPETITIVE'];
-    // 随机 SEO 方法池
     const seoMethods = [
       "使用 Schema 标记增强 Google 富媒体搜索结果展示。",
       "针对当地语言进行关键词本地化（Localization）而非单纯翻译。",
@@ -64,19 +63,20 @@ export default function SEOAnalyzer() {
     ];
 
     const randomScore = Math.floor(Math.random() * 60) + 40;
-    // Data Integrity 现在范围更广 (65% - 99%)
-    const randomIntegrity = (65 + Math.random() * 34).toFixed(2) + '%';
+    // Data Integrity 范围扩大，更真实
+    const randomIntegrity = (60 + Math.random() * 38).toFixed(2) + '%';
+    // 随机产品指数 (1200 - 8000)
+    const randomIndex = Math.floor(Math.random() * 6800) + 1200;
+    // 随机生成 12 个月的趋势数据 (20-100)
+    const trendData = Array.from({ length: 12 }, () => Math.floor(Math.random() * 80) + 20);
     
     setDynamicData({
       score: randomScore,
       level: levels[Math.floor(Math.random() * levels.length)],
       integrity: randomIntegrity,
-      keywords: [
-        { word: `${product} shop ${country}`, diff: 'MED', vol: '12K' },
-        { word: `buy ${product} online`, diff: 'HIGH', vol: '45K' },
-        { word: `${product} wholesale prices`, diff: 'LOW', vol: '3.2K' },
-      ],
-      seoTips: seoMethods.sort(() => 0.5 - Math.random()).slice(0, 3), // 随机选3行
+      searchIndex: randomIndex,
+      indexTrend: trendData,
+      seoTips: seoMethods.sort(() => 0.5 - Math.random()).slice(0, 3),
       businessStrategy: {
         b2c: `针对 ${country} 消费者，建议利用独立站结合社媒广告直发。`,
         b2b: `建立 LinkedIn 矩阵，精准触达海外采购经理。`,
@@ -107,7 +107,6 @@ export default function SEOAnalyzer() {
           </div>
           <h1 style={{ color: 'white', fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: '900', textTransform: 'uppercase' }}>Global <span style={{ color: '#2563eb' }}>Intelligence</span></h1>
           
-          {/* 搜索终端 + 国家选择 */}
           <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '600px', margin: '40px auto', gap: '10px' }}>
             <div style={{ display: 'flex', border: '1px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(20,20,20,0.5)', padding: '4px' }}>
               <select 
@@ -132,19 +131,36 @@ export default function SEOAnalyzer() {
 
         {showResult && (
           <div ref={resultRef} style={{ animation: 'fadeIn 0.5s ease' }}>
-            {/* 数据指标 */}
+            {/* 顶层核心数据 */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '30px' }}>
               <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#0A0A0A', padding: '25px' }}>
-                <span style={{ fontSize: '9px', color: '#52525b' }}>INDEX</span>
-                <div style={{ fontSize: '40px', fontWeight: '900', color: 'white' }}>{dynamicData.score}%</div>
+                <span style={{ fontSize: '9px', color: '#52525b' }}>SEARCH INDEX (MO.)</span>
+                <div style={{ fontSize: '36px', fontWeight: '900', color: '#2563eb' }}>{dynamicData.searchIndex}</div>
+                <div style={{ fontSize: '10px', color: '#10b981', marginTop: '5px' }}>↑ 14.2% vs LAST MONTH</div>
               </div>
               <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#0A0A0A', padding: '25px' }}>
                 <span style={{ fontSize: '9px', color: '#52525b' }}>RANK POTENTIAL</span>
-                <div style={{ fontSize: '18px', fontWeight: '900', color: 'white' }}>{dynamicData.level}</div>
+                <div style={{ fontSize: '18px', fontWeight: '900', color: 'white', marginTop: '10px' }}>{dynamicData.level}</div>
               </div>
               <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#2563eb', padding: '25px' }}>
                 <span style={{ fontSize: '9px', color: 'white' }}>DATA INTEGRITY</span>
                 <div style={{ fontSize: '32px', fontWeight: '900', color: 'white' }}>{dynamicData.integrity}</div>
+              </div>
+            </div>
+
+            {/* 产品指数趋势柱状图 */}
+            <div style={{ backgroundColor: '#0A0A0A', padding: '25px', marginBottom: '30px', border: '1px solid rgba(255,255,255,0.05)' }}>
+              <h4 style={{ color: 'white', fontSize: '11px', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Activity size={14} color="#2563eb"/> 12-MONTH SEARCH TREND IN {country}
+              </h4>
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: '6px', height: '80px', paddingBottom: '10px' }}>
+                {dynamicData.indexTrend.map((v, i) => (
+                  <div key={i} style={{ flex: 1, backgroundColor: i === 11 ? '#2563eb' : 'rgba(59,130,246,0.2)', height: `${v}%`, borderRadius: '1px' }}></div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px', fontSize: '8px', color: '#52525b' }}>
+                <span>MAY 2025</span>
+                <span>PRESENT (APR 2026)</span>
               </div>
             </div>
 
@@ -164,9 +180,9 @@ export default function SEOAnalyzer() {
               </div>
             </div>
 
-            {/* SEO 方法 */}
+            {/* SEO 建议 */}
             <div style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(59,130,246,0.3)', padding: '25px' }}>
-              <h3 style={{ color: '#3b82f6', fontSize: '11px', fontWeight: 'bold', marginBottom: '15px' }}>STRATEGIC SEO ADVISORY (MIN 3 ROWS)</h3>
+              <h3 style={{ color: '#3b82f6', fontSize: '11px', fontWeight: 'bold', marginBottom: '15px' }}>STRATEGIC SEO ADVISORY</h3>
               <ul style={{ padding: 0, listStyle: 'none', margin: 0 }}>
                 {dynamicData.seoTips.map((tip, i) => (
                   <li key={i} style={{ color: '#d1d1d6', fontSize: '13px', marginBottom: '10px', paddingLeft: '15px', borderLeft: '2px solid #2563eb' }}>{tip}</li>
@@ -177,6 +193,7 @@ export default function SEOAnalyzer() {
         )}
       </main>
 
+      {/* 底部导航 */}
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 0', textAlign: 'center' }}>
         <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
           <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>HOME / 官网</a>
