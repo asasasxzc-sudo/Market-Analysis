@@ -1,4 +1,11 @@
-import "./globals.css";
+import "./globals.css"; // 必须有这一行！
+import type { Metadata } from "next";
+import { Inter } from "next/font-source"; // 如果报错可以先删掉字体相关
+
+export const metadata: Metadata = {
+  title: "Ymtea AI Terminal",
+  description: "Market Analysis Tool",
+};
 
 export default function RootLayout({
   children,
@@ -7,9 +14,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="m-0 p-0"> {/* 确保 body 没有背景色 */}
-        {children}
-      </body>
+      <body>{children}</body>
     </html>
   );
 }
