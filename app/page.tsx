@@ -2,7 +2,17 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, BarChart3, Lightbulb, ArrowUpRight, Loader2, Zap, Activity, ShieldCheck, Globe, Cpu, Terminal, Database } from 'lucide-react';
-
+// 在 SEOAnalyzer 函数之前插入
+if (typeof document !== 'undefined') {
+  const style = document.createElement('style');
+  style.innerHTML = `
+    body { background-color: #050505 !important; color: #71717a !important; margin: 0; font-family: monospace; }
+    .bg-blue-600 { background-color: #2563eb !important; }
+    .text-white { color: white !important; }
+    .bg-zinc-900\/30 { background-color: rgba(24, 24, 27, 0.3) !important; }
+  `;
+  document.head.appendChild(style);
+}
 export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
