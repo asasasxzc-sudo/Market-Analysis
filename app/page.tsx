@@ -1,16 +1,16 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { Search, Globe, Loader2, Zap, TrendingUp, ShieldCheck, Newspaper, ArrowRight, LineChart } from 'lucide-react';
+import { Search, Zap, TrendingUp, ShieldCheck, Newspaper, ArrowRight, LineChart, Loader2 } from 'lucide-react';
 
-export default function SEOAnalyzer() {
+export default function Page() {
   const [product, setProduct] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
   const [data, setData] = useState({
     score: 0,
-    trend: [] as number[],
+    trend: [20, 45, 30, 80, 50, 95, 70, 88],
     keywords: [] as any[],
     tips: [] as string[]
   });
@@ -22,18 +22,17 @@ export default function SEOAnalyzer() {
     
     setTimeout(() => {
       setData({
-        score: Math.floor(Math.random() * 10) + 88,
-        // 模拟线状图数据
-        trend: [30, 45, 35, 60, 55, 80, 75, 90],
+        score: 94,
+        trend: [25, 50, 35, 85, 60, 100, 80, 92],
         keywords: [
-          { name: `${product} premium`, vol: 'High', trend: '+142%' },
-          { name: `Sustainable ${product}`, vol: 'Med', trend: '+96%' },
-          { name: `Luxury ${product}`, vol: 'Low', trend: '+68%' }
+          { name: "Premium Supply", val: "+156%" },
+          { name: "Global Wholesale", val: "+89%" },
+          { name: "Eco Packaging", val: "+42%" }
         ],
         tips: [
-          'Leverage sustainability stories for the EU market.',
-          'Optimize SEO for premium long-tail keywords.',
-          'Build brand authority via YMTEA Blog insights.'
+          "Target high-end EU distributors via YMTEA network.",
+          "Optimize SEO for sustainable luxury keywords.",
+          "Check ymtea.club/blog for Q2 market forecasts."
         ]
       });
       setAnalyzing(false);
@@ -43,50 +42,98 @@ export default function SEOAnalyzer() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-[#A1A1AA] selection:bg-blue-500/30">
-      {/* 顶部流光 */}
-      <div className="h-[2px] w-full bg-gradient-to-r from-transparent via-blue-600/50 to-transparent"></div>
-
-      {/* Navigation */}
-      <nav className="border-b border-white/5 bg-[#050505]/50 backdrop-blur-xl sticky top-0 z-50">
+    <div className="min-h-screen bg-black text-zinc-400 font-sans">
+      <nav className="border-b border-white/10 bg-black/80 backdrop-blur-md sticky top-0 z-50">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
-            <div className="bg-blue-600 p-2 rounded-lg shadow-[0_0_15px_rgba(37,99,235,0.3)] group-hover:rotate-6 transition-transform">
-              <Zap size={18} fill="white" className="text-white" />
+          <div className="flex items-center gap-2">
+            <div className="bg-blue-600 p-1.5 rounded-lg">
+              <Zap size={16} className="text-white" fill="currentColor" />
             </div>
-            <span className="text-sm font-black tracking-[0.2em] text-white uppercase">YMTEA <span className="text-blue-500">LABS</span></span>
+            <span className="text-sm font-black tracking-widest text-white uppercase">YMTEA LABS</span>
           </div>
-          <div className="flex items-center gap-6 text-[11px] font-bold uppercase tracking-widest">
-            <a href="https://ymtea.club/blog" className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors">
-              <Newspaper size={14} /> Intelligence Blog
-            </a>
-          </div>
+          <a href="https://ymtea.club/blog" className="text-xs font-bold text-zinc-500 hover:text-blue-400 transition-colors flex items-center gap-2">
+            <Newspaper size={14} /> BLOG
+          </a>
         </div>
       </nav>
 
-      <main className="mx-auto max-w-6xl px-6 py-20">
-        {/* Hero Section */}
-        <section className="text-center mb-24">
-          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-6 italic">
-            Market <span className="text-blue-600">Dynamics.</span>
-          </h1>
-          <p className="max-w-xl mx-auto text-gray-500 font-medium mb-10 leading-relaxed">
-            输入您的产品，获取基于欧美市场的趋势指数。助力 <span className="text-gray-300">云茗荟</span> 全球贸易伙伴精准决策。
-          </p>
+      <main className="mx-auto max-w-5xl px-6 py-16">
+        <section className="text-center mb-16">
+          <h1 className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-6">Market Pulse</h1>
+          <p className="max-w-md mx-auto text-zinc-500 text-sm mb-10">Professional intelligence terminal for Cloud-Tea (云茗荟) partners.</p>
 
-          {/* Search Box */}
-          <div className="max-w-2xl mx-auto">
-            <div className="flex p-1.5 bg-white/[0.03] border border-white/10 rounded-2xl focus-within:border-blue-500/50 transition-all shadow-2xl">
-              <input 
-                className="flex-1 bg-transparent px-4 py-3 text-white outline-none font-medium placeholder:text-gray-700"
-                placeholder="Product name..."
-                value={product}
-                onChange={(e) => setProduct(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && runAnalysis()}
-              />
-              <button 
-                onClick={runAnalysis}
-                disabled={analyzing}
-                className="bg-white text-black px-8 py-3 rounded-xl font-black text-xs uppercase tracking-widest hover:bg-gray-200 transition-all disabled:bg-gray-800"
-              >
-                {analyzing ?
+          <div className="max-w-xl mx-auto flex gap-2 p-2 bg-zinc-900/50 border border-white/10 rounded-2xl">
+            <input 
+              className="flex-1 bg-transparent px-4 py-2 text-white outline-none placeholder:text-zinc-700"
+              placeholder="Enter niche..."
+              value={product}
+              onChange={(e) => setProduct(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && runAnalysis()}
+            />
+            <button 
+              onClick={runAnalysis}
+              className="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold text-xs uppercase hover:bg-blue-500 transition-colors"
+            >
+              {analyzing ? <Loader2 className="animate-spin" size={16} /> : 'Analyze'}
+            </button>
+          </div>
+        </section>
+
+        {showResult && (
+          <div ref={resultRef} className="space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="md:col-span-2 bg-zinc-900/30 border border-white/5 rounded-3xl p-8">
+                <div className="flex justify-between items-center mb-8">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-blue-500 flex items-center gap-2">
+                    <LineChart size={14} /> Trend Index
+                  </span>
+                  <span className="text-2xl font-black text-white">{data.score}</span>
+                </div>
+                <div className="h-32 flex items-end gap-1.5 px-2">
+                  {data.trend.map((v, i) => (
+                    <div key={i} className="flex-1 bg-blue-600/20 rounded-t hover:bg-blue-500 transition-colors" style={{ height: `${v}%` }}></div>
+                  ))}
+                </div>
+              </div>
+              <div className="bg-blue-600 rounded-3xl p-8 text-white flex flex-col justify-center shadow-lg shadow-blue-900/20">
+                <ShieldCheck className="mb-4" size={32} />
+                <div className="text-3xl font-black">STABLE</div>
+                <p className="text-xs mt-2 font-bold text-blue-100">Market health score is optimal.</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="bg-zinc-900/30 border border-white/5 rounded-3xl p-8">
+                <h3 className="text-[10px] font-bold uppercase text-zinc-600 mb-6 tracking-widest">Keywords Alpha</h3>
+                <div className="space-y-4">
+                  {data.keywords.map((k, i) => (
+                    <div key={i} className="flex justify-between items-center py-2 border-b border-white/5">
+                      <span className="text-sm font-bold text-zinc-300">{k.name}</span>
+                      <span className="text-sm font-black text-blue-500">{k.val}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="bg-zinc-900/30 border border-white/5 rounded-3xl p-8 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-[10px] font-bold uppercase text-zinc-600 mb-6 tracking-widest">Quick Strategy</h3>
+                  {data.tips.map((t, i) => (
+                    <p key={i} className="text-xs text-zinc-500 mb-3 leading-relaxed">• {t}</p>
+                  ))}
+                </div>
+                <a href="https://ymtea.club/blog" className="mt-6 flex items-center justify-between p-4 bg-white/5 rounded-xl hover:bg-white/10 transition-all group">
+                  <span className="text-[10px] font-bold text-white tracking-widest">EXPLORE BLOG</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+      </main>
+
+      <footer className="py-12 text-center">
+        <p className="text-[9px] font-bold tracking-[0.5em] text-zinc-800">YMTEA INTELLIGENCE TERMINAL 2026</p>
+      </footer>
+    </div>
+  );
+}
