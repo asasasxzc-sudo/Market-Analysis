@@ -1,6 +1,7 @@
 "use client";
+
 import React, { useState, useRef } from 'react';
-import { Search, BarChart3, FileText, Lightbulb, Globe, ArrowUpRight, CheckCircle2, AlertCircle, Loader2, Zap, TrendingUp, ShieldCheck } from 'lucide-react';
+import { Search, BarChart3, Globe, ArrowUpRight, Loader2, Zap, TrendingUp, ShieldCheck } from 'lucide-react';
 
 export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
@@ -40,21 +41,23 @@ export default function SEOAnalyzer() {
       setAnalyzing(false);
       setShowResult(true);
       setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' }), 200);
-    }, 1800);
+    }, 1500);
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] selection:bg-blue-100 selection:text-blue-700">
-      {/* 顶部装饰条 */}
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A]">
       <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-400"></div>
 
-      {/* Navigation */}
       <nav className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/70 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <div className="flex items-center gap-2.5 group cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-200 group-hover:rotate-12 transition-transform">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-200">
               <Zap size={22} fill="currentColor" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-black tracking-tight leading-none uppercase">YMTEA <span className="text-blue-600 font-extrabold">Labs</span></span>
-              <span className="text-[10px] font-bold text-slate-400 tracking-[0.2
+              <span className="text-lg font-black tracking-tight leading-none uppercase">YMTEA <span className="text-blue-600">Labs</span></span>
+              <span className="text-[10px] font-bold text-slate-400 tracking-[0.2em] uppercase mt-0.5">Global Insight</span>
+            </div>
+          </div>
+          <div className="hidden items-center gap-8 text-sm font-semibold text-slate-500 md:flex">
+            <button onClick={() => result
