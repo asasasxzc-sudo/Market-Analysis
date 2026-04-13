@@ -18,7 +18,7 @@ export default function MarketTerminal() {
   };
 
   return (
-    <div style={{ backgroundColor: 'red', minHeight: '100vh' }}>
+    <div className="min-h-screen bg-slate-50">
       {/* 1. 导航栏 - 磨砂玻璃质感 */}
       <nav className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/80 backdrop-blur-md px-6 py-4">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
