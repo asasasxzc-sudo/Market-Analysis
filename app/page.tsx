@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { Loader2, Zap, Cpu, Lightbulb, Globe, BarChart3 } from 'lucide-react';
+import { Loader2, Zap, Cpu, Lightbulb, Globe, BarChart3, Users, ShoppingCart, Truck, MessageCircle } from 'lucide-react';
 
 export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
+  const [country, setCountry] = useState('US');
   const [analyzing, setAnalyzing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [logs, setLogs] = useState<string[]>([]);
@@ -13,53 +14,74 @@ export default function SEOAnalyzer() {
   const [dynamicData, setDynamicData] = useState({
     score: 0,
     level: '',
-    integrity: '99.8%',
+    integrity: '',
     keywords: [] as any[],
-    seoTips: [] as string[]
+    seoTips: [] as string[],
+    businessStrategy: { b2b: '', b2c: '', wholesale: '' }
   });
 
-  const runDiagnostics = async () => {
-    const diagnosticSteps = [
-      "INITIALIZING YMTEA CORE V4.8...",
-      "SYNCING WITH GLOBAL SEARCH NODES...",
-      `EXTRACTING MARKET DATA FOR: ${product.toUpperCase()}`,
-      "CALCULATING COMPETITOR DENSITY...",
-      "GENERATING SEO STRATEGY MAP...",
-      "FINALIZING INTELLIGENCE OUTPUT..."
-    ];
+  const countries = [
+    { code: 'US', name: 'USA' },
+    { code: 'DE', name: 'Germany' },
+    { code: 'UK', name: 'United Kingdom' },
+    { code: 'FR', name: 'France' },
+    { code: 'IT', name: 'Italy' },
+    { code: 'EU', name: 'Europe General' }
+  ];
 
-    for (const step of diagnosticSteps) {
+  const runDiagnostics = async () => {
+    const steps = [
+      `CONNECTING TO ${country} SERVERS...`,
+      "ANALYZING MARKET SATURATION...",
+      `EXTRACTING LOCAL DATA FOR: ${product.toUpperCase()}`,
+      "GENERATING MULTI-CHANNEL STRATEGIES...",
+      "COMPILING FINAL REPORT..."
+    ];
+    for (const step of steps) {
       setLogs(prev => [...prev.slice(-4), `> ${step}`]);
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 400));
     }
   };
 
   const handleAnalyze = async () => {
-    if (!product.trim()) return alert("请输入需要分析的产品或关键词");
+    if (!product.trim()) return alert("请输入内容");
     setAnalyzing(true);
     setShowResult(false);
-    setLogs([]);
-
+    
     await runDiagnostics();
 
-    const randomScore = Math.floor(Math.random() * 20) + 76;
-    // 动态生成 Integrity 数据
-    const randomIntegrity = (99 + Math.random() * 0.9).toFixed(2) + '%';
+    // 随机评价池
+    const levels = ['OPTIMAL', 'HIGH POTENTIAL', 'SATURATED', 'STABLE MARKET', 'EMERGING', 'COMPETITIVE'];
+    // 随机 SEO 方法池
+    const seoMethods = [
+      "使用 Schema 标记增强 Google 富媒体搜索结果展示。",
+      "针对当地语言进行关键词本地化（Localization）而非单纯翻译。",
+      "优化核心网页指标（LCP/FID/CLS）以提升移动端排名。",
+      "建立高权重的 .edu 或 .gov 回链提升域名权威度。",
+      "利用 AI 生成长尾词相关的 FAQ 问答页面，拦截语音搜索流量。",
+      "在内容中嵌入交互式元素（如计算器、图表）增加页面停留时间。",
+      "执行竞品反向链接缺口分析（Backlink Gap Analysis）。"
+    ];
+
+    const randomScore = Math.floor(Math.random() * 60) + 40;
+    // Data Integrity 现在范围更广 (65% - 99%)
+    const randomIntegrity = (65 + Math.random() * 34).toFixed(2) + '%';
     
     setDynamicData({
       score: randomScore,
-      level: randomScore > 90 ? 'OPTIMAL' : 'ACCELERATING',
+      level: levels[Math.floor(Math.random() * levels.length)],
       integrity: randomIntegrity,
       keywords: [
-        { word: `${product} trends 2026`, diff: 'EASY', vol: '14.2K' },
-        { word: `best ${product} for enterprise`, diff: 'MED', vol: '8.5K' },
-        { word: `affordable ${product} solutions`, diff: 'LOW', vol: '19.1K' },
+        { word: `${product} shop ${country}`, diff: 'MED', vol: '12K' },
+        { word: `buy ${product} online`, diff: 'HIGH', vol: '45K' },
+        { word: `${product} wholesale prices`, diff: 'LOW', vol: '3.2K' },
       ],
-      seoTips: [
-        `🎯 关键词部署：建议在 H1 标签中包含 "${product}"，并增加长尾词覆盖。`,
-        `📉 竞品分析：当前品类在社交媒体搜索权重较高，建议增加短视频内容分发。`,
-        `⚡ 性能优化：检测到同类产品加载速度影响转化，建议优化 "${product}" 相关落地页的 Web Vitals。`
-      ]
+      seoTips: seoMethods.sort(() => 0.5 - Math.random()).slice(0, 3), // 随机选3行
+      businessStrategy: {
+        b2c: `针对 ${country} 消费者，建议利用独立站结合社媒广告直发。`,
+        b2b: `建立 LinkedIn 矩阵，精准触达海外采购经理。`,
+        wholesale: `入驻当地 B2B 平台，并优化 Google Maps 地图搜索排名。`
+      }
     });
 
     setAnalyzing(false);
@@ -68,132 +90,102 @@ export default function SEOAnalyzer() {
   };
 
   return (
-    <div 
-      className="min-h-screen bg-[#050505] font-mono"
-      style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#a1a1aa', fontFamily: 'monospace' }}
-    >
-      {/* 顶部导航 */}
-      <nav 
-        style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(0,0,0,0.8)', padding: '16px 32px', position: 'sticky', top: 0, zIndex: 50 }}
-      >
-        <a 
-          href="https://ymtea.club" 
-          target="_blank" 
-          rel="noopener noreferrer"
-          style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}
-        >
-          <div style={{ backgroundColor: '#2563eb', padding: '4px', borderRadius: '2px' }}>
-            <Zap size={14} style={{ color: 'white' }} />
-          </div>
-          <span style={{ color: 'white', fontWeight: '900', fontSize: '14px', letterSpacing: '0.1em' }}>YMTEA.LABS</span>
+    <div className="min-h-screen bg-[#050505] font-mono" style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#a1a1aa' }}>
+      {/* 导航 */}
+      <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(0,0,0,0.8)', padding: '16px 32px', position: 'sticky', top: 0, zIndex: 50 }}>
+        <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+          <div style={{ backgroundColor: '#2563eb', padding: '4px', borderRadius: '2px' }}><Zap size={14} style={{ color: 'white' }} /></div>
+          <span style={{ color: 'white', fontWeight: '900', fontSize: '14px' }}>YMTEA.LABS</span>
         </a>
-        <div style={{ display: 'flex', gap: '24px', alignItems: 'center' }}>
-          <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6', fontSize: '12px', textDecoration: 'none', fontWeight: 'bold' }}>
-            BLOG / 资讯
-          </a>
-          <div style={{ color: '#10b981', fontSize: '9px', fontWeight: 'bold', border: '1px solid rgba(16,185,129,0.3)', padding: '3px 8px' }}>
-            STATUS: SECURE
-          </div>
-        </div>
+        <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6', fontSize: '12px', textDecoration: 'none' }}>BLOG / 资讯</a>
       </nav>
 
-      <main style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '1000px', padding: '80px 24px', textAlign: 'center' }}>
-        <section style={{ marginBottom: '100px' }}>
-          <div style={{ color: '#3b82f6', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 12px', display: 'inline-flex', marginBottom: '24px', fontSize: '10px', fontWeight: 'bold', letterSpacing: '0.2em' }}>
-            <Cpu size={12} style={{ marginRight: '8px' }} /> NEURAL MARKET ANALYZER
+      <main style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '1000px', padding: '60px 24px' }}>
+        <section style={{ textAlign: 'center', marginBottom: '60px' }}>
+          <div style={{ color: '#3b82f6', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 12px', display: 'inline-flex', marginBottom: '20px', fontSize: '10px' }}>
+             <Globe size={12} style={{ marginRight: '8px' }} /> REGIONAL NODE SELECTOR
           </div>
-          <h1 style={{ color: 'white', fontSize: 'clamp(32px, 8vw, 64px)', fontWeight: '900', margin: '20px 0', textTransform: 'uppercase', fontStyle: 'italic' }}>
-            Market <span style={{ color: '#2563eb' }}>Cognition</span>
-          </h1>
+          <h1 style={{ color: 'white', fontSize: 'clamp(28px, 5vw, 48px)', fontWeight: '900', textTransform: 'uppercase' }}>Global <span style={{ color: '#2563eb' }}>Intelligence</span></h1>
           
-          <div style={{ display: 'flex', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto', border: '1px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(20,20,20,0.5)', padding: '4px', marginTop: '40px' }}>
-            <input 
-              type="text" 
-              placeholder="SEARCH PRODUCT OR NICHE..." 
-              style={{ flex: 1, backgroundColor: 'transparent', border: 'none', outline: 'none', color: 'white', padding: '14px', width: '100%', fontSize: '13px', letterSpacing: '0.1em' }}
-              value={product}
-              onChange={(e) => setProduct(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
-            />
-            <button 
-              onClick={handleAnalyze}
-              disabled={analyzing}
-              style={{ backgroundColor: '#2563eb', border: 'none', color: 'white', padding: '0 25px', fontWeight: '900', cursor: 'pointer', fontSize: '11px' }}
-            >
-              {analyzing ? <Loader2 className="animate-spin" size={14} /> : 'ANALYZE'}
-            </button>
-          </div>
-
-          {analyzing && (
-            <div style={{ marginTop: '30px', backgroundColor: '#000', border: '1px solid rgba(255,255,255,0.05)', padding: '15px', textAlign: 'left', marginLeft: 'auto', marginRight: 'auto', maxWidth: '600px' }}>
-              {logs.map((log, i) => (
-                <div key={i} style={{ color: '#3b82f6', fontSize: '10px', lineHeight: '1.8' }}>{log}</div>
-              ))}
+          {/* 搜索终端 + 国家选择 */}
+          <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '600px', margin: '40px auto', gap: '10px' }}>
+            <div style={{ display: 'flex', border: '1px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(20,20,20,0.5)', padding: '4px' }}>
+              <select 
+                value={country} 
+                onChange={(e) => setCountry(e.target.value)}
+                style={{ backgroundColor: '#111', color: 'white', border: 'none', padding: '0 10px', outline: 'none', fontSize: '12px', borderRight: '1px solid rgba(255,255,255,0.1)' }}
+              >
+                {countries.map(c => <option key={c.code} value={c.code}>{c.name}</option>)}
+              </select>
+              <input 
+                type="text" placeholder="PRODUCT / NICHE..." 
+                style={{ flex: 1, backgroundColor: 'transparent', border: 'none', outline: 'none', color: 'white', padding: '12px' }}
+                value={product} onChange={(e) => setProduct(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
+              />
+              <button onClick={handleAnalyze} disabled={analyzing} style={{ backgroundColor: '#2563eb', border: 'none', color: 'white', padding: '0 20px', fontWeight: 'bold', cursor: 'pointer' }}>
+                {analyzing ? <Loader2 className="animate-spin" size={14} /> : 'RUN'}
+              </button>
             </div>
-          )}
+          </div>
         </section>
 
         {showResult && (
-          <div ref={resultRef} style={{ textAlign: 'left', animation: 'fadeIn 0.8s ease-out' }}>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.05)', marginBottom: '40px' }}>
-              <div style={{ flex: '1', minWidth: '240px', backgroundColor: '#0A0A0A', padding: '30px' }}>
-                <span style={{ fontSize: '9px', color: '#52525b', fontWeight: 'bold', display: 'block', marginBottom: '15px' }}>DENSITY INDEX</span>
-                <div style={{ fontSize: '50px', fontWeight: '900', color: 'white' }}>{dynamicData.score}%</div>
+          <div ref={resultRef} style={{ animation: 'fadeIn 0.5s ease' }}>
+            {/* 数据指标 */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '30px' }}>
+              <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#0A0A0A', padding: '25px' }}>
+                <span style={{ fontSize: '9px', color: '#52525b' }}>INDEX</span>
+                <div style={{ fontSize: '40px', fontWeight: '900', color: 'white' }}>{dynamicData.score}%</div>
               </div>
-              <div style={{ flex: '1', minWidth: '240px', backgroundColor: '#0A0A0A', padding: '30px' }}>
-                <span style={{ fontSize: '9px', color: '#52525b', fontWeight: 'bold', display: 'block', marginBottom: '15px' }}>RANK POTENTIAL</span>
-                <div style={{ fontSize: '24px', fontWeight: '900', color: 'white' }}>{dynamicData.level}</div>
+              <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#0A0A0A', padding: '25px' }}>
+                <span style={{ fontSize: '9px', color: '#52525b' }}>RANK POTENTIAL</span>
+                <div style={{ fontSize: '18px', fontWeight: '900', color: 'white' }}>{dynamicData.level}</div>
               </div>
-              <div style={{ flex: '1', minWidth: '240px', backgroundColor: '#2563eb', padding: '30px' }}>
-                <span style={{ fontSize: '9px', color: 'rgba(255,255,255,0.7)', fontWeight: 'bold', display: 'block', marginBottom: '15px' }}>DATA INTEGRITY</span>
-                <div style={{ fontSize: '40px', fontWeight: '900', color: 'white' }}>{dynamicData.integrity}</div>
+              <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#2563eb', padding: '25px' }}>
+                <span style={{ fontSize: '9px', color: 'white' }}>DATA INTEGRITY</span>
+                <div style={{ fontSize: '32px', fontWeight: '900', color: 'white' }}>{dynamicData.integrity}</div>
               </div>
             </div>
 
-            <div style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(59,130,246,0.3)', padding: '25px', marginBottom: '40px' }}>
-              <h3 style={{ color: '#3b82f6', fontSize: '11px', fontWeight: 'bold', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Lightbulb size={14} /> STRATEGIC SEO ADVISORY
-              </h3>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            {/* 业务模式分析 */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '30px' }}>
+              <div style={{ backgroundColor: '#0A0A0A', padding: '20px' }}>
+                <h4 style={{ color: '#3b82f6', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px' }}><ShoppingCart size={14}/> B2C 方案</h4>
+                <p style={{ color: 'white', fontSize: '13px', marginTop: '10px' }}>{dynamicData.businessStrategy.b2c}</p>
+              </div>
+              <div style={{ backgroundColor: '#0A0A0A', padding: '20px' }}>
+                <h4 style={{ color: '#10b981', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px' }}><Users size={14}/> B2B 方案</h4>
+                <p style={{ color: 'white', fontSize: '13px', marginTop: '10px' }}>{dynamicData.businessStrategy.b2b}</p>
+              </div>
+              <div style={{ backgroundColor: '#0A0A0A', padding: '20px' }}>
+                <h4 style={{ color: '#f59e0b', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px' }}><Truck size={14}/> 批发渠道</h4>
+                <p style={{ color: 'white', fontSize: '13px', marginTop: '10px' }}>{dynamicData.businessStrategy.wholesale}</p>
+              </div>
+            </div>
+
+            {/* SEO 方法 */}
+            <div style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(59,130,246,0.3)', padding: '25px' }}>
+              <h3 style={{ color: '#3b82f6', fontSize: '11px', fontWeight: 'bold', marginBottom: '15px' }}>STRATEGIC SEO ADVISORY (MIN 3 ROWS)</h3>
+              <ul style={{ padding: 0, listStyle: 'none', margin: 0 }}>
                 {dynamicData.seoTips.map((tip, i) => (
-                  <div key={i} style={{ color: '#d1d1d6', fontSize: '13px', lineHeight: '1.5', borderLeft: '2px solid #2563eb', paddingLeft: '12px' }}>
-                    {tip}
-                  </div>
+                  <li key={i} style={{ color: '#d1d1d6', fontSize: '13px', marginBottom: '10px', paddingLeft: '15px', borderLeft: '2px solid #2563eb' }}>{tip}</li>
                 ))}
-              </div>
-            </div>
-
-            <div style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(255,255,255,0.05)' }}>
-              {dynamicData.keywords.map((k, i) => (
-                <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 30px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <span style={{ color: 'white', fontWeight: 'bold', fontSize: '14px' }}>{k.word}</span>
-                  <div style={{ display: 'flex', gap: '25px' }}>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontSize: '8px', color: '#52525b' }}>DIFFICULTY</div>
-                      <div style={{ color: '#3b82f6', fontWeight: 'bold' }}>{k.diff}</div>
-                    </div>
-                    <div style={{ textAlign: 'right' }}>
-                      <div style={{ fontSize: '8px', color: '#52525b' }}>EST. VOLUME</div>
-                      <div style={{ color: 'white', fontWeight: 'bold' }}>{k.vol}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
+              </ul>
             </div>
           </div>
         )}
       </main>
 
-      <footer 
-        style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 0', textAlign: 'center', backgroundColor: '#050505' }}
-      >
-        <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', gap: '40px' }}>
-          <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '11px', fontWeight: 'bold' }}>HOME / 官网</a>
-          <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '11px', fontWeight: 'bold' }}>BLOG / 资讯</a>
+      <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 0', textAlign: 'center' }}>
+        <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
+          <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>HOME / 官网</a>
+          <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>BLOG / 资讯</a>
+          <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <MessageCircle size={14} /> 了解“云茗荟”
+          </a>
         </div>
-        <div style={{ fontSize: '9px', fontWeight: 'bold', letterSpacing: '0.4em', color: 'white' }}>
-          © 2026 <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none' }}>YMTEA LABS</a> · DATA DRIVEN INTELLIGENCE
-        </div>
+        <div style={{ fontSize: '9px', color: 'white', letterSpacing: '0.2em' }}>© 2026 YMTEA LABS · GLOBAL MARKET DATA TERMINAL</div>
       </footer>
     </div>
   );
