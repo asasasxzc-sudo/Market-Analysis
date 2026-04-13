@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef } from 'react';
-import { Loader2, Zap, Cpu, Lightbulb, Globe, barChart as BarChart3 } from 'lucide-react';
+import { Loader2, Zap, Cpu, Lightbulb, Globe, BarChart3 } from 'lucide-react';
 
 export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
@@ -43,6 +43,7 @@ export default function SEOAnalyzer() {
     await runDiagnostics();
 
     const randomScore = Math.floor(Math.random() * 20) + 76;
+    // 动态生成 Integrity 数据
     const randomIntegrity = (99 + Math.random() * 0.9).toFixed(2) + '%';
     
     setDynamicData({
@@ -97,7 +98,6 @@ export default function SEOAnalyzer() {
       </nav>
 
       <main style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '1000px', padding: '80px 24px', textAlign: 'center' }}>
-        {/* 主标题区 */}
         <section style={{ marginBottom: '100px' }}>
           <div style={{ color: '#3b82f6', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 12px', display: 'inline-flex', marginBottom: '24px', fontSize: '10px', fontWeight: 'bold', letterSpacing: '0.2em' }}>
             <Cpu size={12} style={{ marginRight: '8px' }} /> NEURAL MARKET ANALYZER
@@ -106,7 +106,6 @@ export default function SEOAnalyzer() {
             Market <span style={{ color: '#2563eb' }}>Cognition</span>
           </h1>
           
-          {/* 搜索终端 */}
           <div style={{ display: 'flex', maxWidth: '600px', marginLeft: 'auto', marginRight: 'auto', border: '1px solid rgba(255,255,255,0.1)', backgroundColor: 'rgba(20,20,20,0.5)', padding: '4px', marginTop: '40px' }}>
             <input 
               type="text" 
@@ -136,7 +135,6 @@ export default function SEOAnalyzer() {
 
         {showResult && (
           <div ref={resultRef} style={{ textAlign: 'left', animation: 'fadeIn 0.8s ease-out' }}>
-            {/* 核心数据三项 */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.05)', marginBottom: '40px' }}>
               <div style={{ flex: '1', minWidth: '240px', backgroundColor: '#0A0A0A', padding: '30px' }}>
                 <span style={{ fontSize: '9px', color: '#52525b', fontWeight: 'bold', display: 'block', marginBottom: '15px' }}>DENSITY INDEX</span>
@@ -152,7 +150,6 @@ export default function SEOAnalyzer() {
               </div>
             </div>
 
-            {/* SEO 建议面板 */}
             <div style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(59,130,246,0.3)', padding: '25px', marginBottom: '40px' }}>
               <h3 style={{ color: '#3b82f6', fontSize: '11px', fontWeight: 'bold', marginBottom: '15px', display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Lightbulb size={14} /> STRATEGIC SEO ADVISORY
@@ -166,7 +163,6 @@ export default function SEOAnalyzer() {
               </div>
             </div>
 
-            {/* 关键词细分 */}
             <div style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(255,255,255,0.05)' }}>
               {dynamicData.keywords.map((k, i) => (
                 <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 30px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
@@ -188,7 +184,6 @@ export default function SEOAnalyzer() {
         )}
       </main>
 
-      {/* 底部页脚 */}
       <footer 
         style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 0', textAlign: 'center', backgroundColor: '#050505' }}
       >
