@@ -8,7 +8,6 @@ export default function SEOAnalyzer() {
   const [analyzing, setAnalyzing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
-
   const [dynamicData, setDynamicData] = useState({
     score: 0,
     level: '',
@@ -22,42 +21,86 @@ export default function SEOAnalyzer() {
     setShowResult(false);
 
     setTimeout(() => {
-      const randomScore = Math.floor(Math.random() * 15) + 82; 
+      const score = Math.floor(Math.random() * 15) + 82; 
       setDynamicData({
-        score: randomScore,
+        score: score,
         level: 'Excellent',
         keywords: [
-          { word: `${product} premium grade`, diff: 'Low', vol: '12.5k' },
-          { word: `Sustainable ${product} brands`, diff: 'Medium', vol: '8.2k' },
-          { word: `Where to source ${product}`, diff: 'Low', vol: '15.1k' },
-          { word: `${product} bulk supply Europe`, diff: 'Low', vol: '4.8k' },
+          { word: `${product} premium`, diff: 'Low', vol: '12.5k' },
+          { word: `Organic ${product} supply`, diff: 'Med', vol: '8.2k' },
+          { word: `Wholesale ${product} EU`, diff: 'Low', vol: '4.8k' }
         ],
         suggestions: [
-          `Prioritize "Sustainability" in your USP for the EU market.`,
-          `Optimize your landing page for "Experience & Authority" (E-E-A-T).`,
-          `Launch a comparison campaign against established local brands.`
+          `Target sustainability-focused buyers in the EU market.`,
+          `Enhance your brand authority via expert content.`,
+          `Optimize for mobile-first user experience.`
         ]
       });
       setAnalyzing(false);
       setShowResult(true);
-      setTimeout(() => resultRef.current?.scrollIntoView({ behavior: 'smooth' }), 200);
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
     }, 1500);
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A]">
-      <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 via-indigo-500 to-cyan-400"></div>
-
-      <nav className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/70 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-2.5 group cursor-pointer" onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-600 text-white shadow-lg shadow-blue-200">
-              <Zap size={22} fill="currentColor" />
+    <div className="min-h-screen bg-slate-50 text-slate-900">
+      <div className="h-1 w-full bg-blue-600"></div>
+      
+      <nav className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur-md px-6 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="bg-blue-600 p-2 rounded-lg text-white">
+              <Zap size={20} />
             </div>
-            <div className="flex flex-col">
-              <span className="text-lg font-black tracking-tight leading-none uppercase">YMTEA <span className="text-blue-600">Labs</span></span>
-              <span className="text-[10px] font-bold text-slate-400 tracking-[0.2em] uppercase mt-0.5">Global Insight</span>
+            <span className="font-black text-xl tracking-tight">YMTEA LABS</span>
+          </div>
+          <div className="hidden md:flex gap-6 text-sm font-bold text-slate-500">
+            <button onClick={() => window.scrollTo({top:0, behavior:'smooth'})}>Home</button>
+            <a href="https://ymtea.club">Main Site</a>
+          </div>
+        </div>
+      </nav>
+
+      <main className="mx-auto max-w-7xl px-6 py-16">
+        <section className="text-center mb-16">
+          <h1 className="text-5xl md:text-6xl font-black mb-6 tracking-tighter">
+            Global Trade <span className="text-blue-600">Intelligence.</span>
+          </h1>
+          <p className="text-slate-500 text-lg max-w-2xl mx-auto mb-10 font-medium">
+            Enter your product to unlock AI-driven market analysis for international expansion.
+          </p>
+
+          <div className="max-w-2xl mx-auto">
+            <div className="flex p-1 bg-white border border-slate-200 rounded-2xl shadow-xl focus-within:ring-2 ring-blue-500 transition-all">
+              <input 
+                type="text" 
+                placeholder="Search Product (e.g. Green Tea)" 
+                className="flex-1 px-4 py-3 outline-none font-medium"
+                value={product}
+                onChange={(e) => setProduct(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
+              />
+              <button 
+                onClick={handleAnalyze}
+                disabled={analyzing}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all flex items-center gap-2 disabled:bg-slate-300"
+              >
+                {analyzing ? <Loader2 className="animate-spin" size={18} /> : 'Analyze'}
+              </button>
             </div>
           </div>
-          <div className="hidden items-center gap-8 text-sm font-semibold text-slate-500 md:flex">
-            <button onClick={() => result
+        </section>
+
+        {showResult && (
+          <div ref={resultRef} className="space-y-8 animate-in fade-in slide-in-from-bottom-5 duration-700">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { label: 'Market Index', val: dynamicData.score, icon: <BarChart3 />, color: 'text-blue-600' },
+                { label: 'SEO Level', val: dynamicData.level, icon: <TrendingUp />, color: 'text-emerald-600' },
+                { label: 'Potential', val: 'High', icon: <ShieldCheck />, color: 'text-indigo-600' }
+              ].map((item, i) => (
+                <div key={i} className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-md transition-all">
+                  <div className={`mb-4 ${item.color}`}>{item.icon}</div>
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">{item
