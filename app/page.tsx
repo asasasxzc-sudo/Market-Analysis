@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
-import { Loader2, Zap, Globe, ShoppingCart, Users, Truck, MessageCircle, Activity, CheckCircle2 } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Loader2, Zap, Globe, ShoppingCart, Users, Truck, MessageCircle, Activity, CheckCircle2, Lightbulb } from 'lucide-react';
 
 export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
@@ -9,6 +9,7 @@ export default function SEOAnalyzer() {
   const [analyzing, setAnalyzing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [logs, setLogs] = useState<string[]>([]);
+  const [currentHints, setCurrentHints] = useState<string[]>([]);
   const resultRef = useRef<HTMLDivElement>(null);
 
   const [dynamicData, setDynamicData] = useState({
@@ -30,6 +31,30 @@ export default function SEOAnalyzer() {
     { code: 'EU', name: 'Europe General' }
   ];
 
+  // 预设的 SEO 优化提示池
+  const seoHintPool = [
+    "利用 JSON-LD 结构化数据抢占 Google 搜索结果的「零位」展示。",
+    "针对 GEO (地理工程优化) 布局关键词，提升本地搜索的转化精度。",
+    "采用 EEAT 准则重构 Product Review 内容，建立垂直领域专家权威。",
+    "通过 PAA (People Also Ask) 抓取高频问题，构建 FAQ 流量拦截矩阵。",
+    "优化移动端 LCP 指标至 2.5s 以内，防止 Google 爬虫降低评分。",
+    "在 YouTube 布局长尾词视频并嵌入独立站，实现双平台流量共振。",
+    "执行 Backlink Gap 分析，寻找竞争对手尚未覆盖的高权重垂直外链。",
+    "利用 AI 生成语义相关的 LSI 关键词，提升页面主题的覆盖广度。",
+    "对图片进行 WebP 格式化并添加 Alt 描述，获取 Image Search 流量。",
+    "建立内容 Hub 架构，通过内链闭合提升核心转化页面的权重分配。"
+  ];
+
+  // 随机抽取提示的函数
+  const refreshHints = () => {
+    const shuffled = [...seoHintPool].sort(() => 0.5 - Math.random());
+    setCurrentHints(shuffled.slice(0, 3));
+  };
+
+  useEffect(() => {
+    refreshHints();
+  }, []);
+
   const runDiagnostics = async () => {
     const steps = [
       `CONNECTING TO ${country} SERVERS...`,
@@ -49,28 +74,21 @@ export default function SEOAnalyzer() {
       alert("请输入内容");
       return;
     }
-    
     setAnalyzing(true);
     setShowResult(false);
+    refreshHints(); // 每次分析时也刷新一下提示
     
     await runDiagnostics();
 
     const levels = ['OPTIMAL', 'HIGH POTENTIAL', 'SATURATED', 'STABLE MARKET', 'EMERGING', 'COMPETITIVE'];
-    const seoMethods = [
-      "使用 Schema 标记增强 Google 富媒体搜索结果展示。",
-      "针对当地语言进行关键词本地化而非单纯翻译。",
-      "优化核心网页指标（LCP/FID/CLS）提升移动端排名。",
-      "利用 AI 生成长尾词相关的 FAQ 问答页面。",
-      "执行竞品反向链接缺口分析（Backlink Gap Analysis）。"
-    ];
-
+    
     setDynamicData({
       score: Math.floor(Math.random() * 60) + 40,
       level: levels[Math.floor(Math.random() * levels.length)],
       integrity: (60 + Math.random() * 38).toFixed(2) + '%',
       searchIndex: Math.floor(Math.random() * 6800) + 1200,
       indexTrend: Array.from({ length: 12 }, () => Math.floor(Math.random() * 80) + 20),
-      seoTips: seoMethods.sort(() => 0.5 - Math.random()).slice(0, 3),
+      seoTips: [...seoHintPool].sort(() => 0.5 - Math.random()).slice(0, 3),
       businessStrategy: {
         b2c: `针对 ${country} 消费者，建议利用独立站结合社媒广告直发。`,
         b2b: `建立 LinkedIn 矩阵，精准触达海外采购经理。`,
@@ -80,7 +98,6 @@ export default function SEOAnalyzer() {
 
     setAnalyzing(false);
     setShowResult(true);
-    
     setTimeout(() => {
       resultRef.current?.scrollIntoView({ behavior: 'smooth' });
     }, 200);
@@ -98,6 +115,7 @@ export default function SEOAnalyzer() {
       </nav>
 
       <main style={{ marginLeft: 'auto', marginRight: 'auto', maxWidth: '1000px', padding: '60px 24px' }}>
+        {/* 头部搜索区 */}
         <section style={{ textAlign: 'center', marginBottom: '60px' }}>
           <div style={{ color: '#3b82f6', border: '1px solid rgba(59,130,246,0.2)', padding: '4px 12px', display: 'inline-flex', marginBottom: '20px', fontSize: '10px' }}>
              <Globe size={12} style={{ marginRight: '8px' }} /> REGIONAL NODE SELECTOR
@@ -125,7 +143,7 @@ export default function SEOAnalyzer() {
         </section>
 
         {showResult && (
-          <div ref={resultRef}>
+          <div ref={resultRef} style={{ marginBottom: '60px' }}>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '30px' }}>
               <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#0A0A0A', padding: '25px' }}>
                 <span style={{ fontSize: '9px', color: '#52525b' }}>SEARCH INDEX (MO.)</span>
@@ -152,7 +170,7 @@ export default function SEOAnalyzer() {
               </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '30px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)' }}>
               <div style={{ backgroundColor: '#0A0A0A', padding: '20px' }}>
                 <h4 style={{ color: '#3b82f6', fontSize: '11px', display: 'flex', alignItems: 'center', gap: '8px' }}><ShoppingCart size={14}/> B2C 方案</h4>
                 <p style={{ color: 'white', fontSize: '13px', marginTop: '10px' }}>{dynamicData.businessStrategy.b2c}</p>
@@ -169,7 +187,24 @@ export default function SEOAnalyzer() {
           </div>
         )}
 
-        <section style={{ marginTop: '100px', borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '60px' }}>
+        {/* --- 新增：SEO 随机优化建议方案 --- */}
+        <section style={{ marginTop: '120px', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
+            <Lightbulb size={18} color="#2563eb" />
+            <span style={{ fontSize: '12px', fontWeight: 'bold', color: 'white', letterSpacing: '0.1em' }}>SEO STRATEGIC ADVISORY / 优化建议方案</span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '15px' }}>
+            {currentHints.map((hint, idx) => (
+              <div key={idx} style={{ backgroundColor: '#0A0A0A', border: '1px solid rgba(37, 99, 235, 0.15)', padding: '15px', position: 'relative' }}>
+                <span style={{ position: 'absolute', top: '-8px', right: '10px', backgroundColor: '#050505', padding: '0 5px', color: '#2563eb', fontSize: '9px' }}>TIP_{idx + 1}</span>
+                <p style={{ color: '#d1d1d6', fontSize: '12px', lineHeight: '1.6', margin: 0 }}>{hint}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* --- 品牌实力看板 --- */}
+        <section style={{ borderTop: '1px solid rgba(255,255,255,0.05)', paddingTop: '60px' }}>
           <div style={{ textAlign: 'center', marginBottom: '40px' }}>
             <h2 style={{ color: 'white', fontSize: '24px', fontWeight: '900', marginBottom: '10px' }}>由「云茗荟」倾力打造</h2>
             <p style={{ color: '#3b82f6', fontSize: '14px', fontStyle: 'italic' }}>"因为懂 SEO，所以更懂你需要什么。"</p>
@@ -202,6 +237,7 @@ export default function SEOAnalyzer() {
         </section>
       </main>
 
+      {/* 底部导航 */}
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 0', textAlign: 'center', marginTop: '60px' }}>
         <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
           <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>HOME / 官网</a>
