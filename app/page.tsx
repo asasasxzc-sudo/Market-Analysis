@@ -43,7 +43,7 @@ export default function MarketTerminal() {
           </div>
           
           <h1 className="text-5xl md:text-7xl font-black tracking-tight mb-6 text-slate-900 leading-[1.1]">
-            Insight into <span className="text-blue-600">Arbitrage</span>.
+            Insight into <span className="text-blue-600">Arbitrage2.0</span>.
           </h1>
           
           <p className="text-slate-500 font-medium text-lg max-w-xl mx-auto">
