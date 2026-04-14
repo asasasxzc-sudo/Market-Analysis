@@ -83,10 +83,11 @@ export default function SEOAnalyzer() {
   return (
     <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#a1a1aa', fontFamily: 'monospace' }}>
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(0,0,0,0.8)', padding: '16px 32px', position: 'sticky', top: 0, zIndex: 50 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer' }} onClick={handleReset}>
+        {/* 修正后的 Logo 链接 */}
+        <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
           <div style={{ backgroundColor: '#2563eb', padding: '4px', borderRadius: '2px' }}><Zap size={14} style={{ color: 'white' }} /></div>
           <span style={{ color: 'white', fontWeight: '900', fontSize: '14px' }}>YMTEA.LABS</span>
-        </div>
+        </a>
         <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6', fontSize: '12px', textDecoration: 'none' }}>BLOG / 资讯</a>
       </nav>
 
@@ -124,7 +125,6 @@ export default function SEOAnalyzer() {
 
         {showResult && (
           <div ref={resultRef}>
-            {/* 核心指标展示 */}
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1px', backgroundColor: 'rgba(255,255,255,0.05)', marginBottom: '30px' }}>
               <div style={{ flex: '1', minWidth: '200px', backgroundColor: '#0A0A0A', padding: '25px' }}>
                 <span style={{ fontSize: '9px', color: '#52525b' }}>SEARCH INDEX</span>
@@ -151,7 +151,6 @@ export default function SEOAnalyzer() {
               </div>
             </div>
 
-            {/* --- 新增：业务模式推荐方案 (B2B / B2C / 批发) --- */}
             <section style={{ marginTop: '80px', marginBottom: '30px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                 <BarChart3 size={18} color="#2563eb" />
@@ -173,7 +172,6 @@ export default function SEOAnalyzer() {
               </div>
             </section>
 
-            {/* --- SEO 随机优化建议方案 (紧随其后) --- */}
             <section style={{ marginBottom: '80px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px' }}>
                 <Lightbulb size={18} color="#2563eb" />
@@ -220,7 +218,7 @@ export default function SEOAnalyzer() {
           
           <div style={{ textAlign: 'center' }}>
              <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" rel="noopener noreferrer" style={{ display: 'inline-block', backgroundColor: 'white', color: 'black', padding: '16px 40px', fontSize: '14px', fontWeight: '900', textDecoration: 'none', textTransform: 'uppercase' }}>
-               立即咨询 / 联系我们
+                立即咨询 / 联系我们
              </a>
           </div>
         </section>
@@ -228,7 +226,8 @@ export default function SEOAnalyzer() {
 
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 0', textAlign: 'center', marginTop: '60px' }}>
         <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
-          <div onClick={handleReset} style={{ color: 'white', cursor: 'pointer', fontSize: '12px' }}>HOME / 官网</div>
+          {/* 修正后的页脚链接 */}
+          <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>HOME / 官网</a>
           <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>BLOG / 资讯</a>
           <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
             <MessageCircle size={14} /> 了解“云茗荟”
