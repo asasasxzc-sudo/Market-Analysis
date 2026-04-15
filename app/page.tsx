@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { Loader2, Zap, Globe, ShoppingCart, Users, Truck, MessageCircle, Activity, CheckCircle2, Lightbulb, RefreshCw, BarChart3 } from 'lucide-react';
+import { Loader2, Zap, Globe, ShoppingCart, Users, Truck, MessageCircle, Activity, CheckCircle2, Lightbulb, RefreshCw, BarChart3, ChevronLeft } from 'lucide-react';
 
 export default function SEOAnalyzer() {
   const [product, setProduct] = useState('');
@@ -9,7 +9,15 @@ export default function SEOAnalyzer() {
   const [analyzing, setAnalyzing] = useState(false);
   const [showResult, setShowResult] = useState(false);
   const [currentHints, setCurrentHints] = useState<string[]>([]);
+  const [refreshDate, setRefreshDate] = useState(''); // 用于存储实时日期
   const resultRef = useRef<HTMLDivElement>(null);
+
+  // 初始化设置日期
+  useEffect(() => {
+    const now = new Date();
+    const formattedDate = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    setRefreshDate(formattedDate);
+  }, []);
 
   const [dynamicData, setDynamicData] = useState({
     score: 0,
@@ -81,13 +89,25 @@ export default function SEOAnalyzer() {
   };
 
   return (
-    <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#a1a1aa', fontFamily: 'monospace' }}>
+    <div style={{ backgroundColor: '#050505', minHeight: '100vh', color: '#a1a1aa', fontFamily: 'monospace', position: 'relative' }}>
+      
+      {/* 新增：右下角数据鲜活度提示 */}
+      <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 100, fontSize: '10px', color: '#3f3f46', letterSpacing: '0.1em', pointerEvents: 'none' }}>
+        DATA REFRESHED: {refreshDate}
+      </div>
+
       <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)', backgroundColor: 'rgba(0,0,0,0.8)', padding: '16px 32px', position: 'sticky', top: 0, zIndex: 50 }}>
-        {/* 修正后的 Logo 链接 */}
-        <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
-          <div style={{ backgroundColor: '#2563eb', padding: '4px', borderRadius: '2px' }}><Zap size={14} style={{ color: 'white' }} /></div>
-          <span style={{ color: 'white', fontWeight: '900', fontSize: '14px' }}>YMTEA.LABS</span>
-        </a>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          {/* 新增：返回按钮 */}
+          <a href="https://ymtea.club" style={{ display: 'flex', alignItems: 'center', gap: '4px', textDecoration: 'none', color: '#71717a', fontSize: '11px', border: '1px solid rgba(255,255,255,0.1)', padding: '4px 10px', borderRadius: '4px', backgroundColor: 'rgba(255,255,255,0.03)' }}>
+             <ChevronLeft size={14} /> 返回云茗荟
+          </a>
+          
+          <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }}>
+            <div style={{ backgroundColor: '#2563eb', padding: '4px', borderRadius: '2px' }}><Zap size={14} style={{ color: 'white' }} /></div>
+            <span style={{ color: 'white', fontWeight: '900', fontSize: '14px' }}>YMTEA.LABS</span>
+          </a>
+        </div>
         <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" style={{ color: '#3b82f6', fontSize: '12px', textDecoration: 'none' }}>BLOG / 资讯</a>
       </nav>
 
@@ -226,7 +246,6 @@ export default function SEOAnalyzer() {
 
       <footer style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '60px 0', textAlign: 'center', marginTop: '60px' }}>
         <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'center', gap: '30px', flexWrap: 'wrap' }}>
-          {/* 修正后的页脚链接 */}
           <a href="https://ymtea.club" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>HOME / 官网</a>
           <a href="https://ymtea.club/blog" target="_blank" rel="noopener noreferrer" style={{ color: 'white', textDecoration: 'none', fontSize: '12px' }}>BLOG / 资讯</a>
           <a href="https://work.weixin.qq.com/kfid/kfcab9eba83e85cde3e" target="_blank" rel="noopener noreferrer" style={{ color: '#2563eb', textDecoration: 'none', fontSize: '12px', fontWeight: 'bold', display: 'flex', alignItems: 'center', gap: '4px' }}>
